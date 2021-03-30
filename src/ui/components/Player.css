@@ -1,0 +1,75 @@
+.card {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 200px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 5px 5px 10px gray; 
+    background-color: white;    
+}
+.cardHeader {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;           
+}
+.cardHeader div:first-child, #cardHeader div:last-child {
+    padding: .2rem .2rem;
+    width: 1rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.cardHeader div:first-child {
+    border-right: 1px solid black;
+}
+.cardHeader div:last-child {
+    border-left: 1px solid black;
+}
+
+.cardHeader div img {
+    height: 2rem;
+    margin-top: -0.25rem;
+    margin-left: -2rem;
+    position: absolute;
+}
+
+.img {
+    display: flex;
+    justify-content: center;
+
+}
+
+.nombre {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.atributos {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.atributos > div {
+    padding: 0px 5px;
+    border: 1px solid black;
+    border-bottom: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.atributos:last-child {
+    border-bottom: 1px solid black;
+}
+
+.atributos > div:hover {
+    background-color: teal;
+    cursor: pointer;
+}
