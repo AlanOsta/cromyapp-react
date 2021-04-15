@@ -5,16 +5,16 @@ import batman from '../img/b1.png'
 
 function Player(){
 
-    let playerCard = <div>
+    let playerCard = <div className="card">
                         <div className="cardHeader">
                             <div>B</div>
                             <div><img src={sa} alt="Super Amigos"></img></div>
                             <div>1</div>
                         </div>
 
-                        <div id="img"><img src={batman} id="imagen" alt="Imagen del personaje"></img></div>
-                        <div id="nombre">Batman</div>
-                        <div id="atributos">
+                        <div className="img"><img src={batman} id="imagen" alt="Imagen del personaje"></img></div>
+                        <div className="nombre">Batman</div>
+                        <div className="atributos">
                             <div id="altura">
                                 <div>Altura</div>
                                 <div>2,03</div>
