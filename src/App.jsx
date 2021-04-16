@@ -1,8 +1,12 @@
-import Tablero from './ui/components/Tablero'
+import Tablero from "./ui/components/Tablero/Tablero"
+import { Provider } from "react-redux"
+import store  from "./api/store"
 
 function App() {
   return (
-    <Tablero />
+    <Provider store={store}> 
+      <Tablero />
+    </Provider>
   );
 }
 
