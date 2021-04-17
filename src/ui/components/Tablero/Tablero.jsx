@@ -1,19 +1,27 @@
-import Player from "../Player/Player";
+import Jugador from "../Jugador/Jugador";
+import Adversario from "../Adversario/Adversario"
 import { connect } from "react-redux";
 import {repartirMazo} from "../../../api/actions"
 
-const Tablero = ({repartirMazo}) => {
+const Tablero = ({repartirMazo, cartasJugador, cartasAdversario}) => {
     return (
-        <div>
-            <Player />
-            {/* <button onClick={repartirMazo}>Repartir</button> */}
+        <div className="tablero">
+            <Adversario />
+            <Jugador />
+            <br/>
+            <button onClick={repartirMazo}>Repartir</button>
+            <br/>
+            <span>Cartas jugador: {cartasJugador}</span>
+            <br/>
+            <span>Cartas adversario: {cartasAdversario}</span>
+
 
         </div>
     );
 }
 
-/*const mapStateToProps = () => {};
+const mapStateToProps = ({cartasJugador, cartasAdversario}) => ({cartasJugador, cartasAdversario});
 
-const mapDispatchToProps = { repartirMazo };*/
+const mapDispatchToProps = { repartirMazo };
 
-export default connect()(Tablero);
+export default connect(mapStateToProps, mapDispatchToProps)(Tablero);

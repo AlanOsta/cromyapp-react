@@ -1,20 +1,20 @@
 const estadoInicial = {
     mazo: [],
     cartasJugador : [],
-    cartasIA : [],
+    cartasAdversario : [],
     cartaJugador : {
-      "id": 1,
-      "lCarta": "A",
-      "nCarta": "1",
-      "nombre": "Superman",
-      "altura": 2.05,
-      "peso": 110,
-      "fuerza": 2000,
-      "ganadas": 990,
-      "velocidad": 400,
-      "ruta": "./img/a1.png"
+      "id": 0,
+      "lCarta": "",
+      "nCarta": "",
+      "nombre": "",
+      "altura": 0,
+      "peso": 0,
+      "fuerza": 0,
+      "ganadas": 0,
+      "velocidad": 0,
+      "ruta": ""
     },
-    cartaIA : {
+    cartaAdversario : {
       "id": 2,
       "lCarta": "A",
       "nCarta": "2",
@@ -30,6 +30,14 @@ const estadoInicial = {
 
 const reducer = (estadoPrevio = estadoInicial, action) => {
     switch(action.type){
+
+        case "REPARTIR_MAZO" :
+            return {...estadoPrevio, 
+              cartasJugador: action.cartasJugador, 
+              cartasAdversario: action.cartasAdversario,
+              cartaJugador: action.cartaJugador,
+              cartaAdversario: action.cartaAdversario
+             };
 
         default :
             return estadoPrevio;

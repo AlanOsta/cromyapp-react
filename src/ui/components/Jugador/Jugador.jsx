@@ -1,9 +1,9 @@
 
-import './Player.css';
+import './Jugador.css';
 import sa from '../../img/sa.png'
 import { connect } from "react-redux";
 
-const Player = (props) => {
+const Jugador = (props) => {
 
     let playerCard = <div className="card">
                         <div className="cardHeader">
@@ -49,4 +49,4 @@ const mapStateToProps = store => ({
     cartaJugador : store.cartaJugador
 });
 
-export default connect(mapStateToProps)(Player);
+export default connect(mapStateToProps)(Jugador);
