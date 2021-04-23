@@ -9,22 +9,17 @@ function shuffle(array) {
     return array;
 }
 
-
-
 //export const repartirMazo = () => ({type: "REPARTIR_MAZO"});
-
 export const repartirMazo = () => {
     let cartasJugador = [];
     let cartasAdversario = [];
-    let mazo;  
     let i;
     for (cartasJugador=[], i=0 ; i<34 ; ++i) cartasJugador[i]=i;
     cartasJugador = shuffle(cartasJugador);
     cartasAdversario = cartasJugador.splice(16, 17);
     
-    return (dispatch) =>  {
-        mazo = fetch("http://localhost:4000/cartas");
-        mazo
+    return (dispatch) => {
+        fetch("http://localhost:3000/cartas")
         .then (res=>res.json())
         .then (res=>{
             dispatch({
@@ -32,9 +27,22 @@ export const repartirMazo = () => {
                 mazo : res,
                 cartasJugador : cartasJugador,
                 cartasAdversario : cartasAdversario
+            });            
+        })
+        .catch(err=>{
+            console.log(err);
+        });
+    };
+};
 
-            })
-        })  
-    }
-}
+export const jugadorJuega = (atributo, valor) => {
+    console.log ("actions "+atributo+" "+valor)
     
+    return {
+        type : "JUGADOR_JUEGA"
+    }
+
+    /*return (dispatch) => {
+        dispatch({type : "JUGADOR_JUEGA"})
+    }*/
+}
