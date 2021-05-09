@@ -13,7 +13,8 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
 
         case "REPARTIR_MAZO" :
             return {...estadoPrevio,
-              mazo: action.mazo, 
+              mazo: action.mazo,
+              atributos: action.atributos, 
               cartasJugador: action.cartasJugador, 
               cartasAdversario: action.cartasAdversario,
               cartaJugador: action.mazo[action.cartasJugador[0]],              

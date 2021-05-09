@@ -22,11 +22,13 @@ export const repartirMazo = () => {
         fetch("http://localhost:3000/cartas")
         .then (res=>res.json())
         .then (res=>{
+            
             dispatch({
-                type : "REPARTIR_MAZO",
-                mazo : res,
-                cartasJugador : cartasJugador,
-                cartasAdversario : cartasAdversario
+                type: "REPARTIR_MAZO",
+                mazo: res,
+                atributos: Object.keys(res[0]),
+                cartasJugador: cartasJugador,
+                cartasAdversario: cartasAdversario
             });            
         })
         .catch(err=>{
