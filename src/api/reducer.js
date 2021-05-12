@@ -4,8 +4,41 @@ const estadoInicial = {
     cartasJugador : [],
     cartasAdversario : [],
     turnoJugador : true ,
-    cartaJugador : 1,
-    cartaAdversario : 2
+    cartaJugador : {
+        "id": null,
+        "lCarta": "",
+        "nCarta": null,
+        "nombre": "",
+        "ruta": "",
+        "atributos": [
+          {
+            "id": 0,
+            "nombre": "",
+            "valor": null
+          },
+          {
+            "id": 1,
+            "nombre": "",
+            "valor": null
+          },
+          {
+            "id": 2,
+            "nombre": "",
+            "valor": null
+          },
+          {
+            "id": 3,
+            "nombre": "",
+            "valor": null
+          },
+          {
+            "id": 4,
+            "nombre": "",
+            "valor": null
+          }
+        ]
+      },
+    cartaAdversario : {}
 };
 
 const reducer = (estadoPrevio = estadoInicial, action) => {
@@ -22,7 +55,7 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
              }
 
         case "JUGADOR_JUEGA" :
-            console.log("reducer");
+            console.log("reducer "+action.atributo+" "+action.valor);
             return {...estadoPrevio,
                 reducer: "reducer"
             }

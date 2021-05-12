@@ -20,31 +20,32 @@ const Jugador = (props) => {
                 </div>
 
                 {/* ------------ ATRIBUTOS ------------ */}
+                {/* armar un for para esta seccion */}
 
                 <div className="atributos">
-                    <div id={props.atributos[4]} onClick={ () => props.jugadorJuega(props.atributos[4], props.cartaJugador.Altura)}> 
-                        <div>{props.atributos[4]}</div>
-                        <div>{props.cartaJugador.Altura}</div>
+                    <div id={props.cartaJugador.atributos[0].nombre} onClick={ () => props.jugadorJuega(props.cartaJugador.atributos[0].id, props.cartaJugador.atributos[0].valor, props.cartaAdversario.atributos[0].valor)}> 
+                        <div>{props.cartaJugador.atributos[0].nombre}</div>
+                        <div>{props.cartaJugador.atributos[0].valor}</div>
                     </div>
 
-                    <div id={props.atributos[5]} onClick={ () => props.jugadorJuega(props.atributos[5], props.cartaJugador.Peso)}>
-                        <div>{props.atributos[5]}</div>
-                        <div>{props.cartaJugador.Peso}</div>
+                    <div id={props.cartaJugador.atributos[1].nombre} onClick={ () => props.jugadorJuega(props.cartaJugador.atributos[1].id, props.cartaJugador.atributos[1].valor, props.cartaAdversario.atributos[1].valor)}>
+                        <div>{props.cartaJugador.atributos[1].nombre}</div>
+                        <div>{props.cartaJugador.atributos[1].valor}</div>
                     </div>
 
-                    <div id={props.atributos[6]} onClick={ () => props.jugadorJuega(props.atributos[6], props.cartaJugador.Fuerza)}>
-                        <div>{props.atributos[6]}</div>
-                        <div>{props.cartaJugador.Fuerza}</div>
+                    <div id={props.cartaJugador.atributos[2].nombre} onClick={ () => props.jugadorJuega(props.cartaJugador.atributos[2].id, props.cartaJugador.atributos[2].valor)}>
+                        <div>{props.cartaJugador.atributos[2].nombre}</div>
+                        <div>{props.cartaJugador.atributos[2].valor}</div>
                     </div>
 
-                    <div id={props.atributos[7]} onClick={ () => props.jugadorJuega(props.atributos[7], props.cartaJugador.Ganadas)}>
-                        <div>{props.atributos[7]}</div>
-                        <div>{props.cartaJugador.Ganadas}</div>
+                    <div id={props.cartaJugador.atributos[3].nombre} onClick={ () => props.jugadorJuega(props.cartaJugador.atributos[3].id, props.cartaJugador.atributos[3].valor)}>
+                        <div>{props.cartaJugador.atributos[3].nombre}</div>
+                        <div>{props.cartaJugador.atributos[3].valor}</div>
                     </div>
 
-                    <div id={props.atributos[8]} onClick={ () => props.jugadorJuega(props.atributos[8], props.cartaJugador.Velocidad)}>
-                        <div>{props.atributos[8]}</div>
-                        <div>{props.cartaJugador.Velocidad}</div>
+                    <div id={props.cartaJugador.atributos[4].nombre} onClick={ () => props.jugadorJuega(props.cartaJugador.atributos[4].id, props.cartaJugador.atributos[4].valor)}>
+                        <div>{props.cartaJugador.atributos[4].nombre}</div>
+                        <div>{props.cartaJugador.atributos[4].valor}</div>
                     </div>
                 </div>                
             </div>
@@ -55,12 +56,12 @@ const Jugador = (props) => {
 
 const mapStateToProps = store => ({
     cartaJugador: store.cartaJugador,
-    atributos: store.atributos    
+    cartaAdversario: store.cartaAdversario   
 });
 
 function mapDispatchToProps(dispatch) {
     return {
-        jugadorJuega: (atributo, valorAtributo) => dispatch(jugadorJuega(atributo, valorAtributo))
+        jugadorJuega: (atributo, valorJugador, valorAdversario) => dispatch(jugadorJuega(atributo, valorJugador, valorAdversario))
     }
 }
 

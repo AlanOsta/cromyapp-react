@@ -37,14 +37,10 @@ export const repartirMazo = () => {
     };
 };
 
-export const jugadorJuega = (atributo, valor) => {
-    console.log ("actions "+atributo+" "+valor)
-    
+export const jugadorJuega = (atributo, valorJugador, valorAdversario) => {
+    console.log ("actions "+atributo+" "+valorJugador+" "+valorAdversario)
+        
     return {
         type : "JUGADOR_JUEGA"
-    }
-
-    /*return (dispatch) => {
-        dispatch({type : "JUGADOR_JUEGA"})
-    }*/
+    }    
 }
