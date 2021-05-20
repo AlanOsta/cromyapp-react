@@ -1,11 +1,11 @@
 const estadoInicial = {
     mazo: [],
     atributos: [],
-    cartasJugador : [],
-    cartasAdversario : [],
-    turnoJugador : true ,
-    atributoEnJuego : null,
-    cartaJugador : {
+    cartasJugador: [],
+    cartasAdversario: [],
+    turnoJugador: true ,
+    atributoEnJuego: null,    
+    cartaJugador: {
         "id": null,
         "lCarta": "",
         "nCarta": null,
@@ -39,7 +39,7 @@ const estadoInicial = {
           }
         ]
       },
-    cartaAdversario : {}
+    cartaAdversario: {}
 };
 
 const reducer = (estadoPrevio = estadoInicial, action) => {
@@ -70,7 +70,7 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
               cartasJugador: action.cartasJugador,
               cartasAdversario: action.cartasAdversario,
               cartaJugador: action.cartasJugador[0],              
-              cartaAdversario: action.action.cartasAdversario[0]
+              cartaAdversario: action.cartasAdversario[0]
             }
         
         case "GANO_ADVERSARIO" :
@@ -81,7 +81,7 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             cartasJugador: action.cartasJugador,
             cartasAdversario: action.cartasAdversario,
             cartaJugador: action.cartasJugador[0],              
-            cartaAdversario: action.action.cartasAdversario[0]
+            cartaAdversario: action.cartasAdversario[0]
           }
 
 

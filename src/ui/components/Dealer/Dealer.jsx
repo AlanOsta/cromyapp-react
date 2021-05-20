@@ -1,12 +1,15 @@
 import { connect } from "react-redux";
 import { ganoJugador, ganoAdversario} from "../../../api/actions"
 
-const Match = (props) => {
+export const match = (props) => {
     let cartasJugador = props.cartasJugador
     let cartasAdversario = props.cartasAdversario
     let valorAtributoJugador = props.cartaJugador.atributos[props.atributoEnJuego].valor
     let valorAtributoAdversario = props.cartaAdversario.atributos[props.atributoEnJuego].valor
 
+    console.log("dealer :"+props.cartasJugador)
+
+    
     // GANO EL JUGADOR
     if (valorAtributoJugador > valorAtributoAdversario){
     
@@ -40,6 +43,7 @@ const Match = (props) => {
 
         // ############ ELIJE LA IA ############
     }
+    
 
     return (cartasJugador, cartasAdversario)
 
@@ -57,9 +61,11 @@ const mapStateToProps = store => ({
 function mapDispatchToProps(dispatch) {
     return {
         ganoJugador: (cartasJugador,cartasAdversario) => dispatch(ganoJugador(cartasJugador,cartasAdversario)),
-        ganoAdversario: (cartasJugador,cartasAdversario) => dispatch(ganoAdversario(cartasJugador,cartasAdversario))
+        ganoAdversario: (cartasJugador,cartasAdversario) => dispatch(ganoAdversario(cartasJugador,cartasAdversario)),
+        match: () => dispatch(match())
+        
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Match);
+export default connect(mapStateToProps,mapDispatchToProps)(match);
 //export default Match;

@@ -1,14 +1,16 @@
 import './Jugador.css';
 import mazoImg from '../../img/sa.png'
 import { connect } from "react-redux"
-import  Dealer from "../Dealer/Dealer"
-import { jugadorJuega } from "../../../api/actions"
+// import  { match } from "../Dealer/Dealer"
+import { jugadorJuega, match } from "../../../api/actions"
 
 const Jugador = (props) => {
 
-    const handleClick = (atributo) => {
-        props.jugadorJuega(atributo);
-        Dealer.Match()
+    const handleClick = (atributoEnJuego, props) => {
+        console.log("jug :"+atributoEnJuego);
+        props.jugadorJuega(atributoEnJuego);
+        console.log(props);
+        props.match(atributoEnJuego, props);
     }
 
     return (
@@ -29,12 +31,12 @@ const Jugador = (props) => {
             {/* armar un for para esta seccion */}
 
             <div className="atributos">
-                <div id={props.cartaJugador.atributos[0].nombre} onClick={ () => handleClick(0)}> 
+                <div id={props.cartaJugador.atributos[0].nombre} onClick={ () => handleClick(0, props)}> 
                     <div>{props.cartaJugador.atributos[0].nombre}</div>
                     <div>{props.cartaJugador.atributos[0].valor}</div>
                 </div>
 
-                <div id={props.cartaJugador.atributos[1].nombre} onClick={ () => handleClick(1)}>
+                <div id={props.cartaJugador.atributos[1].nombre} onClick={ () => handleClick(1, props)}>
                     <div>{props.cartaJugador.atributos[1].nombre}</div>
                     <div>{props.cartaJugador.atributos[1].valor}</div>
                 </div>
@@ -61,14 +63,17 @@ const Jugador = (props) => {
 }
 
 const mapStateToProps = store => ({
+    cartasJugador: store.cartasJugador,
+    cartasAdversario: store.cartasAdversario,
     cartaJugador: store.cartaJugador,
     cartaAdversario: store.cartaAdversario,
-    Dealer: store.Dealer 
+    atributoEnJuego: store.atributoEnJuego    
 });
 
 function mapDispatchToProps(dispatch) {
     return {
-        jugadorJuega: (atributo) => dispatch(jugadorJuega(atributo))
+        jugadorJuega: (atributo) => dispatch(jugadorJuega(atributo)),
+        match: (atributoEnJuego, props) => dispatch(match(atributoEnJuego, props))
     }
 }
 
