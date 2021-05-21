@@ -1,71 +1,24 @@
 import { connect } from "react-redux";
-import { ganoJugador, ganoAdversario} from "../../../api/actions"
 
-export const match = (props) => {
-    let cartasJugador = props.cartasJugador
-    let cartasAdversario = props.cartasAdversario
-    let valorAtributoJugador = props.cartaJugador.atributos[props.atributoEnJuego].valor
-    let valorAtributoAdversario = props.cartaAdversario.atributos[props.atributoEnJuego].valor
-
-    console.log("dealer :"+props.cartasJugador)
-
+export const Dealer = (props) => {
     
-    // GANO EL JUGADOR
-    if (valorAtributoJugador > valorAtributoAdversario){
-    
-        // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
-        //if (empate.length > 0) {
-        //    empate.forEach(num => cartasJugador.push(empate[0]));
-        //    empate=[];
-        //    actualizarCarta();
-        //}
-
-        // Si el jugador gano, mueve las primeras cartas de ambos al final del array del jugador
-        cartasJugador.push(cartasJugador[0],cartasAdversario[0]);
-        cartasJugador.shift();
-        cartasAdversario.shift();        
-    } 
-    
-    // GANO IA
-    if (valorAtributoJugador < valorAtributoAdversario){
-
-        // Si hay cartas en empate se asignan al final de array de la IA y se eliminan del empate
-        //if (empate.length > 0) {
-        //    empate.forEach(num => cartasAdversario.push(empate[0]));
-        //    empate=[];
-        //    actualizarCarta();
-        //}
-
-        // Si la IA gano, mueve las primeras cartas de ambos al final del array de la IA
-        cartasAdversario.push(cartasAdversario[0],cartasJugador[0]);
-        cartasAdversario.shift();
-        cartasJugador.shift();
-
-        // ############ ELIJE LA IA ############
-    }
-    
-
-    return (cartasJugador, cartasAdversario)
+    return (
+        <div>
+            <span>Cartas jugador ({props.cartasJugador.length}) : {props.cartasJugador}</span>
+            <br/>
+            <span>Cartas adversario ({props.cartasAdversario.length}) : {props.cartasAdversario}</span>
+            <br/>
+            <span>Cartas en empate ({props.cartasEmpate.length}) : {props.cartasEmpate}</span>            
+        </div>
+        );
 
     
 }
 
 const mapStateToProps = store => ({
-    cartasJugador: store.cartasJugador,
-    cartasAdversario: store.cartasAdversario,
-    cartaJugador: store.cartaJugador,
-    cartaAdversario: store.cartaAdversario,
-    atributoEnJuego: store.atributoEnJuego   
+    cartasJugador: store.cartasJugador.map(num => num+","),
+    cartasAdversario: store.cartasAdversario.map(num => num+","),
+    cartasEmpate: store.cartasEmpate.map(num => num+",")   
 });
 
-function mapDispatchToProps(dispatch) {
-    return {
-        ganoJugador: (cartasJugador,cartasAdversario) => dispatch(ganoJugador(cartasJugador,cartasAdversario)),
-        ganoAdversario: (cartasJugador,cartasAdversario) => dispatch(ganoAdversario(cartasJugador,cartasAdversario)),
-        match: () => dispatch(match())
-        
-    }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(match);
-//export default Match;
+export default connect(mapStateToProps)(Dealer);

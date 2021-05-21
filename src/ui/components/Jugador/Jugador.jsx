@@ -1,15 +1,14 @@
 import './Jugador.css';
 import mazoImg from '../../img/sa.png'
 import { connect } from "react-redux"
-// import  { match } from "../Dealer/Dealer"
 import { jugadorJuega, match } from "../../../api/actions"
 
 const Jugador = (props) => {
 
     const handleClick = (atributoEnJuego, props) => {
-        console.log("jug :"+atributoEnJuego);
-        props.jugadorJuega(atributoEnJuego);
-        console.log(props);
+        //console.log("jug :"+atributoEnJuego);
+        //props.jugadorJuega(atributoEnJuego);
+        console.log("handleClick :"+props);
         props.match(atributoEnJuego, props);
     }
 
@@ -31,27 +30,27 @@ const Jugador = (props) => {
             {/* armar un for para esta seccion */}
 
             <div className="atributos">
-                <div id={props.cartaJugador.atributos[0].nombre} onClick={ () => handleClick(0, props)}> 
+                <div id={props.cartaJugador.atributos[0].nombre} onClick={() => handleClick(0, props)}> 
                     <div>{props.cartaJugador.atributos[0].nombre}</div>
                     <div>{props.cartaJugador.atributos[0].valor}</div>
                 </div>
 
-                <div id={props.cartaJugador.atributos[1].nombre} onClick={ () => handleClick(1, props)}>
+                <div id={props.cartaJugador.atributos[1].nombre} onClick={() => handleClick(1, props)}>
                     <div>{props.cartaJugador.atributos[1].nombre}</div>
                     <div>{props.cartaJugador.atributos[1].valor}</div>
                 </div>
 
-                <div id={props.cartaJugador.atributos[2].nombre} onClick={ () => handleClick(2)}>
+                <div id={props.cartaJugador.atributos[2].nombre} onClick={() => handleClick(2, props)}>
                     <div>{props.cartaJugador.atributos[2].nombre}</div>
                     <div>{props.cartaJugador.atributos[2].valor}</div>
                 </div>
 
-                <div id={props.cartaJugador.atributos[3].nombre} onClick={ () => handleClick(3)}>
+                <div id={props.cartaJugador.atributos[3].nombre} onClick={() => handleClick(3, props)}>
                     <div>{props.cartaJugador.atributos[3].nombre}</div>
                     <div>{props.cartaJugador.atributos[3].valor}</div>
                 </div>
 
-                <div id={props.cartaJugador.atributos[4].nombre} onClick={ () => handleClick(4)}>
+                <div id={props.cartaJugador.atributos[4].nombre} onClick={() => handleClick(4, props)}>
                     <div>{props.cartaJugador.atributos[4].nombre}</div>
                     <div>{props.cartaJugador.atributos[4].valor}</div>
                 </div>
@@ -67,6 +66,7 @@ const mapStateToProps = store => ({
     cartasAdversario: store.cartasAdversario,
     cartaJugador: store.cartaJugador,
     cartaAdversario: store.cartaAdversario,
+    cartasEmpate: store.cartasEmpate,
     atributoEnJuego: store.atributoEnJuego    
 });
 

@@ -1,4 +1,4 @@
-import { connect } from "react-redux"
+//import { connect } from "react-redux"
 
 function shuffle(array) {
     let tmp, current, top = array.length;
@@ -48,6 +48,7 @@ export const jugadorJuega = (atributo) => {
     }    
 }
 
+/*
 export const ganoJugador = (cartasJugador, cartasAdversario) => {
     console.log ("actions: ganoJugador")
     return {
@@ -65,26 +66,23 @@ export const ganoAdversario = (cartasJugador, cartasAdversario) => {
         cartasAdversario: cartasAdversario
     }
 }
+*/
 
 export const match = (atributoEnJuego, props) => {
     //let atributoEnJuego = props.atributoEnJuego
-    let cartasJugador = props.cartasJugador
-    let cartasAdversario = props.cartasAdversario
-    let valorAtributoJugador = props.cartaJugador.atributos[atributoEnJuego].valor
-    let valorAtributoAdversario = props.cartaAdversario.atributos[atributoEnJuego].valor
-
-    //console.log(props.cartaJugador.atributos[props.atributoEnJuego].valor)
-    //console.log(valorAtributoJugador)
-
+    let cartasJugador = props.cartasJugador;
+    let cartasAdversario = props.cartasAdversario;
+    let cartasEmpate = props.cartasEmpate;
+    let valorAtributoJugador = props.cartaJugador.atributos[atributoEnJuego].valor;
+    let valorAtributoAdversario = props.cartaAdversario.atributos[atributoEnJuego].valor;
     
+    ///////// GANO EL JUGADOR /////////
     if (valorAtributoJugador > valorAtributoAdversario){
-    
         // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
-        //if (empate.length > 0) {
-        //    empate.forEach(num => cartasJugador.push(empate[0]));
-        //    empate=[];
-        //    actualizarCarta();
-        //}
+        if (cartasEmpate.length > 0) {
+            cartasEmpate.map(carta => cartasJugador.push(carta));
+            cartasEmpate=[];            
+        }
 
         // Si el jugador gano, mueve las primeras cartas de ambos al final del array del jugador
         cartasJugador.push(cartasJugador[0],cartasAdversario[0]);
@@ -99,6 +97,7 @@ export const match = (atributoEnJuego, props) => {
         })
     }
 
+    ///////// GANO EL ADVERSARIO /////////
     if (valorAtributoJugador < valorAtributoAdversario){
 
         // Si hay cartas en empate se asignan al final de array de la IA y se eliminan del empate
@@ -107,9 +106,13 @@ export const match = (atributoEnJuego, props) => {
         //    empate=[];
         //    actualizarCarta();
         //}
+        if (cartasEmpate.length > 0) {
+            cartasEmpate.map(carta => cartasAdversario.push(carta));
+            cartasEmpate=[];            
+        }
 
         // Si la IA gano, mueve las primeras cartas de ambos al final del array de la IA
-        cartasAdversario.push(cartasAdversario[0],cartasJugador[0]);
+        cartasAdversario.push(cartasAdversario[0], cartasJugador[0]);
         cartasAdversario.shift();
         cartasJugador.shift();
         console.log("Gano el adversario")
@@ -120,15 +123,31 @@ export const match = (atributoEnJuego, props) => {
             cartasJugador: cartasJugador,
             cartasAdversario: cartasAdversario
         })
-    }    
+    }
+
+    ///////// EMPATE /////////
+    if (valorAtributoJugador === valorAtributoAdversario){
+        cartasEmpate.push(cartasJugador[0],cartasAdversario[0]);
+        cartasJugador.shift();
+        cartasAdversario.shift();
+        console.log("Empate");
+
+        return (dispatch) => dispatch({
+            type: "EMPATE",
+            cartasJugador: cartasJugador,
+            cartasAdversario: cartasAdversario,
+            cartasEmpate: cartasEmpate
+        })
+    }
     
     
 }
 
+/*
 const mapStateToProps = store => ({
     cartaJugador: store.cartaJugador,
     cartaAdversario: store.cartaAdversario,
     atributoEnJuego: store.atributoEnJuego    
 });
 
-connect(mapStateToProps)
+connect(mapStateToProps)*/

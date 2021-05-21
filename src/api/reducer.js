@@ -3,6 +3,7 @@ const estadoInicial = {
     atributos: [],
     cartasJugador: [],
     cartasAdversario: [],
+    cartasEmpate: [],
     turnoJugador: true ,
     atributoEnJuego: null,    
     cartaJugador: {
@@ -58,8 +59,7 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
         case "JUGADOR_JUEGA" :
             console.log("reducer "+action.atributo);
             return {...estadoPrevio,
-              atributoEnJuego: action.atributo,
-              turnoJugador: false
+              atributoEnJuego: action.atributo              
             }
         
         case "GANO_JUGADOR" :
@@ -69,8 +69,9 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
               turnoJugador: true,
               cartasJugador: action.cartasJugador,
               cartasAdversario: action.cartasAdversario,
-              cartaJugador: action.cartasJugador[0],              
-              cartaAdversario: action.cartasAdversario[0]
+              cartasEmpate: [],
+              cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],
+              cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]]
             }
         
         case "GANO_ADVERSARIO" :
@@ -80,10 +81,22 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             turnoJugador: false,
             cartasJugador: action.cartasJugador,
             cartasAdversario: action.cartasAdversario,
-            cartaJugador: action.cartasJugador[0],              
-            cartaAdversario: action.cartasAdversario[0]
+            cartasEmpate: [],
+            cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],              
+            cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]]
           }
+        
+        case "EMPATE" :
+          console.log("empate")
+          
+          return{...estadoPrevio,
+            cartasJugador: action.cartasJugador,
+            cartasAdversario: action.cartasAdversario,
+            cartasEmpate: action.cartasEmpate,
+            cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],              
+            cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]]
 
+          }
 
         default :
             return estadoPrevio;
