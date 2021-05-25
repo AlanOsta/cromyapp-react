@@ -1,5 +1,3 @@
-//import { connect } from "react-redux"
-
 function shuffle(array) {
     let tmp, current, top = array.length;
     if(top) while(--top) {
@@ -11,7 +9,6 @@ function shuffle(array) {
     return array;
 }
 
-//export const repartirMazo = () => ({type: "REPARTIR_MAZO"});
 export const repartirMazo = () => {
     let cartasJugador = [];
     let cartasAdversario = [];
@@ -48,106 +45,86 @@ export const jugadorJuega = (atributo) => {
     }    
 }
 
-/*
-export const ganoJugador = (cartasJugador, cartasAdversario) => {
-    console.log ("actions: ganoJugador")
-    return {
-        type: "GANO_JUGADOR",
-        cartasJugador: cartasJugador,
-        cartasAdversario: cartasAdversario
-    }
-}
-
-export const ganoAdversario = (cartasJugador, cartasAdversario) => {
-    console.log ("actions: ganoAdversario")
-    return {
-        type: "GANO_ADVERSARIO",
-        cartasJugador: cartasJugador,
-        cartasAdversario: cartasAdversario
-    }
-}
-*/
-
 export const match = (atributoEnJuego, props) => {
-    //let atributoEnJuego = props.atributoEnJuego
     let cartasJugador = props.cartasJugador;
     let cartasAdversario = props.cartasAdversario;
     let cartasEmpate = props.cartasEmpate;
     let valorAtributoJugador = props.cartaJugador.atributos[atributoEnJuego].valor;
     let valorAtributoAdversario = props.cartaAdversario.atributos[atributoEnJuego].valor;
+    let atributoAdversario = props.atributoAdversario;
+    let turnoJugador = props.turnoJugador;
     
-    ///////// GANO EL JUGADOR /////////
-    if (valorAtributoJugador > valorAtributoAdversario){
-        // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
-        if (cartasEmpate.length > 0) {
-            cartasEmpate.map(carta => cartasJugador.push(carta));
-            cartasEmpate=[];            
-        }
+    if ( !turnoJugador && (atributoEnJuego !== atributoAdversario)){
 
-        // Si el jugador gano, mueve las primeras cartas de ambos al final del array del jugador
-        cartasJugador.push(cartasJugador[0],cartasAdversario[0]);
-        cartasJugador.shift();
-        cartasAdversario.shift();
-        console.log("Gano el jugador")
-
-        return (dispatch) => dispatch ({
-            type: "GANO_JUGADOR",
-            cartasJugador: cartasJugador,
-            cartasAdversario: cartasAdversario
-        })
-    }
-
-    ///////// GANO EL ADVERSARIO /////////
-    if (valorAtributoJugador < valorAtributoAdversario){
-
-        // Si hay cartas en empate se asignan al final de array de la IA y se eliminan del empate
-        //if (empate.length > 0) {
-        //    empate.forEach(num => cartasAdversario.push(empate[0]));
-        //    empate=[];
-        //    actualizarCarta();
-        //}
-        if (cartasEmpate.length > 0) {
-            cartasEmpate.map(carta => cartasAdversario.push(carta));
-            cartasEmpate=[];            
-        }
-
-        // Si la IA gano, mueve las primeras cartas de ambos al final del array de la IA
-        cartasAdversario.push(cartasAdversario[0], cartasJugador[0]);
-        cartasAdversario.shift();
-        cartasJugador.shift();
-        console.log("Gano el adversario")
-
-        // ############ ELIJE LA IA ############
-        return (dispatch) => dispatch({
-            type: "GANO_ADVERSARIO",
-            cartasJugador: cartasJugador,
-            cartasAdversario: cartasAdversario
-        })
-    }
-
-    ///////// EMPATE /////////
-    if (valorAtributoJugador === valorAtributoAdversario){
-        cartasEmpate.push(cartasJugador[0],cartasAdversario[0]);
-        cartasJugador.shift();
-        cartasAdversario.shift();
-        console.log("Empate");
+        console.log("Es el turno del adverasrio para elegir categoria")
 
         return (dispatch) => dispatch({
-            type: "EMPATE",
-            cartasJugador: cartasJugador,
-            cartasAdversario: cartasAdversario,
-            cartasEmpate: cartasEmpate
+            type: ""
         })
-    }
+
+    }else {
     
-    
+        ///////// GANO EL JUGADOR /////////
+        if (valorAtributoJugador > valorAtributoAdversario){
+            // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
+            if (cartasEmpate.length > 0) {
+                cartasEmpate.map(carta => cartasJugador.push(carta));
+                cartasEmpate=[];            
+            }
+
+            // Si el jugador gano, mueve las primeras cartas de ambos al final del array del jugador
+            cartasJugador.push(cartasJugador[0],cartasAdversario[0]);
+            cartasJugador.shift();
+            cartasAdversario.shift();
+            console.log("Gano el jugador")
+
+            return (dispatch) => dispatch ({
+                type: "GANO_JUGADOR",
+                cartasJugador: cartasJugador,
+                cartasAdversario: cartasAdversario
+            })
+        }
+
+        ///////// GANO EL ADVERSARIO /////////
+        if (valorAtributoJugador < valorAtributoAdversario){
+
+            // Si hay cartas en empate se asignan al final de array del Adversario y se eliminan del empate
+            if (cartasEmpate.length > 0) {
+                cartasEmpate.map(carta => cartasAdversario.push(carta));
+                cartasEmpate=[];            
+            }
+
+            // Si el Adversario gano, mueve las primeras cartas de ambos al final del array del Adversario
+            cartasAdversario.push(cartasAdversario[0], cartasJugador[0]);
+            cartasAdversario.shift();
+            cartasJugador.shift();
+            console.log("Gano el adversario")
+
+            // ############ ELIJE EL ADVERSARIO ############
+            // Modificar a algo mas elaborado que un random
+            let atributoAdversario = Math.floor(Math.random()*5);
+            
+            return (dispatch) => dispatch({
+                type: "GANO_ADVERSARIO",
+                cartasJugador: cartasJugador,
+                cartasAdversario: cartasAdversario,
+                atributoAdversario: atributoAdversario
+            })
+        }
+
+        ///////// EMPATE /////////
+        if (valorAtributoJugador === valorAtributoAdversario){
+            cartasEmpate.push(cartasJugador[0],cartasAdversario[0]);
+            cartasJugador.shift();
+            cartasAdversario.shift();
+            console.log("Empate");
+
+            return (dispatch) => dispatch({
+                type: "EMPATE",
+                cartasJugador: cartasJugador,
+                cartasAdversario: cartasAdversario,
+                cartasEmpate: cartasEmpate
+            })
+        }
+    }  
 }
-
-/*
-const mapStateToProps = store => ({
-    cartaJugador: store.cartaJugador,
-    cartaAdversario: store.cartaAdversario,
-    atributoEnJuego: store.atributoEnJuego    
-});
-
-connect(mapStateToProps)*/

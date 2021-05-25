@@ -73,3 +73,8 @@
     background-color: teal;
     cursor: pointer;
 }
+
+.anulado {
+    background-color: darkred;
+    cursor: not-allowed; 
+}

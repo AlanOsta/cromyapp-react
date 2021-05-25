@@ -5,7 +5,8 @@ const estadoInicial = {
     cartasAdversario: [],
     cartasEmpate: [],
     turnoJugador: true ,
-    atributoEnJuego: null,    
+    atributoEnJuego: null,
+    atributoAdversario: null,  
     cartaJugador: {
         "id": null,
         "lCarta": "",
@@ -15,27 +16,27 @@ const estadoInicial = {
         "atributos": [
           {
             "id": 0,
-            "nombre": "",
+            "nombre": "Atr1",
             "valor": null
           },
           {
             "id": 1,
-            "nombre": "",
+            "nombre": "Atr2",
             "valor": null
           },
           {
             "id": 2,
-            "nombre": "",
+            "nombre": "Atr3",
             "valor": null
           },
           {
             "id": 3,
-            "nombre": "",
+            "nombre": "Atr4",
             "valor": null
           },
           {
             "id": 4,
-            "nombre": "",
+            "nombre": "Atr5",
             "valor": null
           }
         ]
@@ -79,6 +80,7 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
           
           return{...estadoPrevio,
             turnoJugador: false,
+            atributoAdversario: action.atributoAdversario,
             cartasJugador: action.cartasJugador,
             cartasAdversario: action.cartasAdversario,
             cartasEmpate: [],
@@ -95,7 +97,6 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             cartasEmpate: action.cartasEmpate,
             cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],              
             cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]]
-
           }
 
         default :

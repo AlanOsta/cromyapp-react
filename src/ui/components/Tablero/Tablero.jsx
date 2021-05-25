@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import {repartirMazo} from "../../../api/actions"
 
 const Tablero = ({repartirMazo}) => {
+    repartirMazo();
     return (
         <div className="tablero">
             <Adversario />
