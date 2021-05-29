@@ -37,6 +37,7 @@ const Jugador = (props) => {
 }
 
 const mapStateToProps = store => ({
+    mazo: store.mazo,
     cartasJugador: store.cartasJugador,
     cartasAdversario: store.cartasAdversario,
     cartaJugador: store.cartaJugador,
@@ -45,7 +46,9 @@ const mapStateToProps = store => ({
     turnoJugador: store.turnoJugador,
     atributoEnJuego: store.atributoEnJuego,
     atributoAdversario: store.atributoAdversario,
-    atributos: store.atributos  
+    atributos: store.atributos,
+    chatJugador: store.chatJugador,
+    chatAdversario: store.chatAdversario
 });
 
 function mapDispatchToProps(dispatch) {

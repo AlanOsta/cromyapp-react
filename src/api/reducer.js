@@ -4,8 +4,7 @@ const estadoInicial = {
     cartasJugador: [],
     cartasAdversario: [],
     cartasEmpate: [],
-    turnoJugador: true ,
-    atributoEnJuego: null,
+    turnoJugador: true ,    
     atributoAdversario: null,  
     cartaJugador: {
         "id": null,
@@ -41,7 +40,9 @@ const estadoInicial = {
           }
         ]
       },
-    cartaAdversario: {}
+    cartaAdversario: {},
+    chatJugador: [],
+    chatAdversario: []
 };
 
 const reducer = (estadoPrevio = estadoInicial, action) => {
@@ -50,10 +51,10 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
         case "REPARTIR_MAZO" :
             return {...estadoPrevio,
               mazo: action.mazo,
-              atributos: action.atributos, 
-              cartasJugador: action.cartasJugador, 
+              atributos: action.atributos,
+              cartasJugador: action.cartasJugador,
               cartasAdversario: action.cartasAdversario,
-              cartaJugador: action.mazo[action.cartasJugador[0]],              
+              cartaJugador: action.mazo[action.cartasJugador[0]],
               cartaAdversario: action.mazo[action.cartasAdversario[0]]
              }
 
@@ -67,12 +68,14 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             console.log("reducer gano jugador")
             
             return{...estadoPrevio,
+              atributoAdversario: null,
               turnoJugador: true,
               cartasJugador: action.cartasJugador,
               cartasAdversario: action.cartasAdversario,
               cartasEmpate: [],
               cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],
-              cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]]
+              cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]],
+              chatJugador: action.chatJugador
             }
         
         case "GANO_ADVERSARIO" :
@@ -92,6 +95,7 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
           console.log("empate")
           
           return{...estadoPrevio,
+            atributoAdversario: action.turnoJugador ? null : action.atributoAdversario,
             cartasJugador: action.cartasJugador,
             cartasAdversario: action.cartasAdversario,
             cartasEmpate: action.cartasEmpate,

@@ -46,13 +46,17 @@ export const jugadorJuega = (atributo) => {
 }
 
 export const match = (atributoEnJuego, props) => {
+    let mazo = props.mazo;
     let cartasJugador = props.cartasJugador;
     let cartasAdversario = props.cartasAdversario;
     let cartasEmpate = props.cartasEmpate;
     let valorAtributoJugador = props.cartaJugador.atributos[atributoEnJuego].valor;
     let valorAtributoAdversario = props.cartaAdversario.atributos[atributoEnJuego].valor;
     let atributoAdversario = props.atributoAdversario;
+    let atributos = props.atributos;
     let turnoJugador = props.turnoJugador;
+    let chatJugador = props.chatJugador;
+    let chatAdversario = props.chatAdversario;
     
     if ( !turnoJugador && (atributoEnJuego !== atributoAdversario)){
 
@@ -63,6 +67,24 @@ export const match = (atributoEnJuego, props) => {
         })
 
     }else {
+
+        ///////// CHAT JUGADOR HANDLER /////////
+        if (chatJugador.length < 5){
+            chatJugador.push(atributos[atributoEnJuego]+" "+valorAtributoJugador);
+        } else {
+            chatJugador.shift();
+            chatJugador.push(atributos[atributoEnJuego]+" "+valorAtributoJugador);
+        }
+
+        ///////// CHAT ADVERSARIO HANDLER /////////
+        if (turnoJugador){
+            if (chatAdversario.length < 5){
+                chatAdversario.push(atributos[atributoEnJuego]+" "+valorAtributoAdversario);
+            } else {
+                chatAdversario.shift();
+                chatAdversario.push(atributos[atributoEnJuego]+" "+valorAtributoAdversario);
+            }
+        }
     
         ///////// GANO EL JUGADOR /////////
         if (valorAtributoJugador > valorAtributoAdversario){
@@ -81,7 +103,8 @@ export const match = (atributoEnJuego, props) => {
             return (dispatch) => dispatch ({
                 type: "GANO_JUGADOR",
                 cartasJugador: cartasJugador,
-                cartasAdversario: cartasAdversario
+                cartasAdversario: cartasAdversario,
+                chatJugador: chatJugador
             })
         }
 
@@ -103,6 +126,15 @@ export const match = (atributoEnJuego, props) => {
             // ############ ELIJE EL ADVERSARIO ############
             // Modificar a algo mas elaborado que un random
             let atributoAdversario = Math.floor(Math.random()*5);
+            valorAtributoAdversario = mazo[cartasAdversario[0]].atributos[atributoAdversario].valor
+
+            ///////// CHAT ADVERSARIO HANDLER /////////
+            if (chatAdversario.length < 5){
+                chatAdversario.push(atributos[atributoAdversario]+" "+valorAtributoAdversario);
+            } else {
+                chatAdversario.shift();
+                chatAdversario.push(atributos[atributoAdversario]+" "+valorAtributoAdversario);
+            }
             
             return (dispatch) => dispatch({
                 type: "GANO_ADVERSARIO",
@@ -119,8 +151,22 @@ export const match = (atributoEnJuego, props) => {
             cartasAdversario.shift();
             console.log("Empate");
 
+            if (!turnoJugador){
+                let atributoAdversario = Math.floor(Math.random()*5);
+                return (dispatch) => dispatch({
+                    type: "EMPATE",
+                    turnoJugador: turnoJugador,
+                    atributoAdversario: atributoAdversario,
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    cartasEmpate: cartasEmpate
+                })
+
+            }
+
             return (dispatch) => dispatch({
                 type: "EMPATE",
+                turnoJugador: turnoJugador,
                 cartasJugador: cartasJugador,
                 cartasAdversario: cartasAdversario,
                 cartasEmpate: cartasEmpate

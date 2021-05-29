@@ -1,6 +1,8 @@
 import Jugador from "../Jugador/Jugador";
 import Adversario from "../Adversario/Adversario"
 import Dealer from "../Dealer/Dealer"
+import ChatJugador from "../ChatJugador/ChatJugador"
+import ChatAdversario from "../ChatAdversario/ChatAdversario"
 import { connect } from "react-redux";
 import {repartirMazo} from "../../../api/actions"
 
@@ -10,9 +12,13 @@ const Tablero = ({repartirMazo}) => {
         <div className="tablero">
             <Adversario />
             <br/>
+            <ChatAdversario />
+            <br />
             <Dealer />
             <br/>
             <Jugador />
+            <br/>
+            <ChatJugador />
             <br/>
             <button onClick={repartirMazo}>Repartir</button>
         </div>
