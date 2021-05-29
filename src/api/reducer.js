@@ -1,4 +1,5 @@
 const estadoInicial = {
+    debug: false,
     mazo: [],
     atributos: [],
     cartasJugador: [],
@@ -41,15 +42,14 @@ const estadoInicial = {
         ]
       },
     cartaAdversario: {},
-    chatJugador: [],
-    chatAdversario: []
+    chat: []    
 };
 
 const reducer = (estadoPrevio = estadoInicial, action) => {
     switch(action.type){
 
         case "REPARTIR_MAZO" :
-            return {...estadoPrevio,
+            return {...estadoPrevio,              
               mazo: action.mazo,
               atributos: action.atributos,
               cartasJugador: action.cartasJugador,
@@ -75,7 +75,7 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
               cartasEmpate: [],
               cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],
               cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]],
-              chatJugador: action.chatJugador
+              chat: action.chat
             }
         
         case "GANO_ADVERSARIO" :

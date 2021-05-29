@@ -1,1 +1,3 @@
-- Resolver la eleccion del adversario en situacion de empate
+- Definir situacion de ganador
+- Agregar la "voz" del dealer al chat
+- Animaciones y efecto de cantidad de cartas

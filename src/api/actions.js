@@ -55,8 +55,7 @@ export const match = (atributoEnJuego, props) => {
     let atributoAdversario = props.atributoAdversario;
     let atributos = props.atributos;
     let turnoJugador = props.turnoJugador;
-    let chatJugador = props.chatJugador;
-    let chatAdversario = props.chatAdversario;
+    let chat = props.chat;    
     
     if ( !turnoJugador && (atributoEnJuego !== atributoAdversario)){
 
@@ -68,24 +67,20 @@ export const match = (atributoEnJuego, props) => {
 
     }else {
 
-        ///////// CHAT JUGADOR HANDLER /////////
-        if (chatJugador.length < 5){
-            chatJugador.push(atributos[atributoEnJuego]+" "+valorAtributoJugador);
-        } else {
-            chatJugador.shift();
-            chatJugador.push(atributos[atributoEnJuego]+" "+valorAtributoJugador);
+        ///////// CHAT HANDLER /////////
+        let lineaChatJugador = {
+            "nombre": "Jugador",
+            "mensaje": atributos[atributoEnJuego]+" "+valorAtributoJugador
+        }
+        let lineaChatAdversario = {
+            "nombre": "Adversario",
+            "mensaje": atributos[atributoEnJuego]+" "+valorAtributoAdversario
         }
 
-        ///////// CHAT ADVERSARIO HANDLER /////////
-        if (turnoJugador){
-            if (chatAdversario.length < 5){
-                chatAdversario.push(atributos[atributoEnJuego]+" "+valorAtributoAdversario);
-            } else {
-                chatAdversario.shift();
-                chatAdversario.push(atributos[atributoEnJuego]+" "+valorAtributoAdversario);
-            }
-        }
-    
+        while (chat.length > 8){chat.shift();}
+        chat.push(lineaChatJugador);
+        if (turnoJugador) {chat.push(lineaChatAdversario);}
+        
         ///////// GANO EL JUGADOR /////////
         if (valorAtributoJugador > valorAtributoAdversario){
             // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
@@ -104,7 +99,7 @@ export const match = (atributoEnJuego, props) => {
                 type: "GANO_JUGADOR",
                 cartasJugador: cartasJugador,
                 cartasAdversario: cartasAdversario,
-                chatJugador: chatJugador
+                chat: chat
             })
         }
 
@@ -129,13 +124,22 @@ export const match = (atributoEnJuego, props) => {
             valorAtributoAdversario = mazo[cartasAdversario[0]].atributos[atributoAdversario].valor
 
             ///////// CHAT ADVERSARIO HANDLER /////////
+            /*
             if (chatAdversario.length < 5){
                 chatAdversario.push(atributos[atributoAdversario]+" "+valorAtributoAdversario);
             } else {
                 chatAdversario.shift();
                 chatAdversario.push(atributos[atributoAdversario]+" "+valorAtributoAdversario);
             }
-            
+            */
+
+            lineaChatAdversario = {
+                "nombre": "Adversario",
+                "mensaje": atributos[atributoAdversario]+" "+valorAtributoAdversario
+            }
+            while (chat.length > 10){chat.shift();}
+            chat.push(lineaChatAdversario);
+                
             return (dispatch) => dispatch({
                 type: "GANO_ADVERSARIO",
                 cartasJugador: cartasJugador,

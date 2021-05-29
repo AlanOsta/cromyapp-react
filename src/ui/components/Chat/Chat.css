@@ -1,0 +1,28 @@
+.chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #ddd;
+    border-radius: 10px;
+    padding: 10px 5px;
+    margin: 10px;
+    min-width: 400px;
+    max-width: 600px;
+}
+
+.Adversario, .Jugador {
+    padding: 2px 15px;
+    margin: 2px 10px;  
+}
+
+.Adversario {
+    align-self:flex-end;
+    background-color: #d9bfad;
+    border-radius: 10px 10px 0px 10px;
+}
+
+.Jugador {
+    align-self:flex-start;
+    background-color:#add9b9;
+    border-radius: 10px 10px 10px 0px;
+}

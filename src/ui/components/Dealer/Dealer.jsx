@@ -4,8 +4,6 @@ export const Dealer = (props) => {
     
     return (
         <div className="dealer">
-            <span>Atributo adversario: {props.atributos[props.atributoAdversario]}</span>
-            <br />
             <span>Cartas jugador ({props.cartasJugador.length}) : {props.cartasJugador}</span>
             <br/>
             <span>Cartas adversario ({props.cartasAdversario.length}) : {props.cartasAdversario}</span>
