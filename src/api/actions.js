@@ -55,7 +55,9 @@ export const match = (atributoEnJuego, props) => {
     let atributoAdversario = props.atributoAdversario;
     let atributos = props.atributos;
     let turnoJugador = props.turnoJugador;
-    let chat = props.chat;    
+    let chat = props.chat;
+    let lineaChatDealer; 
+    let lineasChatCount = 8;
     
     if ( !turnoJugador && (atributoEnJuego !== atributoAdversario)){
 
@@ -67,7 +69,7 @@ export const match = (atributoEnJuego, props) => {
 
     }else {
 
-        ///////// CHAT HANDLER /////////
+        ///////// CHAT  /////////
         let lineaChatJugador = {
             "nombre": "Jugador",
             "mensaje": atributos[atributoEnJuego]+" "+valorAtributoJugador
@@ -77,9 +79,9 @@ export const match = (atributoEnJuego, props) => {
             "mensaje": atributos[atributoEnJuego]+" "+valorAtributoAdversario
         }
 
-        while (chat.length > 8){chat.shift();}
         chat.push(lineaChatJugador);
         if (turnoJugador) {chat.push(lineaChatAdversario);}
+        while (chat.length > lineasChatCount){chat.shift();}
         
         ///////// GANO EL JUGADOR /////////
         if (valorAtributoJugador > valorAtributoAdversario){
@@ -93,7 +95,13 @@ export const match = (atributoEnJuego, props) => {
             cartasJugador.push(cartasJugador[0],cartasAdversario[0]);
             cartasJugador.shift();
             cartasAdversario.shift();
-            console.log("Gano el jugador")
+            
+            lineaChatDealer = {
+                "nombre": "Dealer",
+                "mensaje": "El Jugador gano la mano"
+            }
+                chat.push(lineaChatDealer)
+                while (chat.length > lineasChatCount){chat.shift();}
 
             return (dispatch) => dispatch ({
                 type: "GANO_JUGADOR",
@@ -116,35 +124,36 @@ export const match = (atributoEnJuego, props) => {
             cartasAdversario.push(cartasAdversario[0], cartasJugador[0]);
             cartasAdversario.shift();
             cartasJugador.shift();
-            console.log("Gano el adversario")
+
+            ///////// CHAT  /////////
+            lineaChatDealer = {
+                "nombre": "Dealer",
+                "mensaje": "El Adversario gano la mano"
+            }
+                chat.push(lineaChatDealer)
+                while (chat.length > lineasChatCount){chat.shift();}
+
 
             // ############ ELIJE EL ADVERSARIO ############
             // Modificar a algo mas elaborado que un random
             let atributoAdversario = Math.floor(Math.random()*5);
             valorAtributoAdversario = mazo[cartasAdversario[0]].atributos[atributoAdversario].valor
 
-            ///////// CHAT ADVERSARIO HANDLER /////////
-            /*
-            if (chatAdversario.length < 5){
-                chatAdversario.push(atributos[atributoAdversario]+" "+valorAtributoAdversario);
-            } else {
-                chatAdversario.shift();
-                chatAdversario.push(atributos[atributoAdversario]+" "+valorAtributoAdversario);
-            }
-            */
-
+            ///////// CHAT  /////////
+            
             lineaChatAdversario = {
                 "nombre": "Adversario",
                 "mensaje": atributos[atributoAdversario]+" "+valorAtributoAdversario
             }
-            while (chat.length > 10){chat.shift();}
+            while (chat.length > lineasChatCount){chat.shift();}
             chat.push(lineaChatAdversario);
                 
             return (dispatch) => dispatch({
                 type: "GANO_ADVERSARIO",
                 cartasJugador: cartasJugador,
                 cartasAdversario: cartasAdversario,
-                atributoAdversario: atributoAdversario
+                atributoAdversario: atributoAdversario,
+                chat: chat
             })
         }
 
@@ -153,7 +162,14 @@ export const match = (atributoEnJuego, props) => {
             cartasEmpate.push(cartasJugador[0],cartasAdversario[0]);
             cartasJugador.shift();
             cartasAdversario.shift();
-            console.log("Empate");
+            
+            ///////// CHAT  /////////
+            lineaChatDealer = {
+                "nombre": "Dealer",
+                "mensaje": "Empate !"
+            }
+                chat.push(lineaChatDealer)
+                while (chat.length > lineasChatCount){chat.shift();}
 
             if (!turnoJugador){
                 let atributoAdversario = Math.floor(Math.random()*5);
@@ -163,7 +179,8 @@ export const match = (atributoEnJuego, props) => {
                     atributoAdversario: atributoAdversario,
                     cartasJugador: cartasJugador,
                     cartasAdversario: cartasAdversario,
-                    cartasEmpate: cartasEmpate
+                    cartasEmpate: cartasEmpate,
+                    chat: chat
                 })
 
             }
@@ -173,7 +190,8 @@ export const match = (atributoEnJuego, props) => {
                 turnoJugador: turnoJugador,
                 cartasJugador: cartasJugador,
                 cartasAdversario: cartasAdversario,
-                cartasEmpate: cartasEmpate
+                cartasEmpate: cartasEmpate,
+                chat: chat
             })
         }
     }  

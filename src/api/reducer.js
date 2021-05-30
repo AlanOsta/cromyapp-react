@@ -65,7 +65,6 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             }
         
         case "GANO_JUGADOR" :
-            console.log("reducer gano jugador")
             
             return{...estadoPrevio,
               atributoAdversario: null,
@@ -79,8 +78,7 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             }
         
         case "GANO_ADVERSARIO" :
-          console.log("reducer gano adversario")
-          
+                
           return{...estadoPrevio,
             turnoJugador: false,
             atributoAdversario: action.atributoAdversario,
@@ -88,11 +86,11 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             cartasAdversario: action.cartasAdversario,
             cartasEmpate: [],
             cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],              
-            cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]]
+            cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]],
+            chat: action.chat
           }
         
         case "EMPATE" :
-          console.log("empate")
           
           return{...estadoPrevio,
             atributoAdversario: action.turnoJugador ? null : action.atributoAdversario,
@@ -100,7 +98,8 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             cartasAdversario: action.cartasAdversario,
             cartasEmpate: action.cartasEmpate,
             cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],              
-            cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]]
+            cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]],
+            chat: action.chat
           }
 
         default :

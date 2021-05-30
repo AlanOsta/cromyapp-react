@@ -14,8 +14,7 @@ const Tablero = (props) => {
             <br/>
             <button onClick={() => props.repartirMazo()}>Repartir</button>
             <br />
-            {props.debug ? <Dealer /> : null}
-            {console.dir(props)}
+            {props.debug ? <Dealer /> : null}            
         </div>
     );
 }
