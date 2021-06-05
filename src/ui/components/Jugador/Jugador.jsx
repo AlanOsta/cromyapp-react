@@ -2,7 +2,7 @@ import './Jugador.css';
 import mazoImg from '../../img/sa.png'
 import Chat from '../Chat/Chat'
 import { connect } from "react-redux"
-import { jugadorJuega, match } from "../../../api/actions"
+import { match } from "../../../api/actions"
 
 const Jugador = (props) => {
 
@@ -56,7 +56,6 @@ const mapStateToProps = store => ({
 
 function mapDispatchToProps(dispatch) {
     return {
-        jugadorJuega: (atributo) => dispatch(jugadorJuega(atributo)),
         match: (atributoEnJuego, props) => dispatch(match(atributoEnJuego, props))
     }
 }

@@ -1,3 +1,13 @@
+LOGICA APP
 - Definir situacion de ganador
-- Agregar la "voz" del dealer al chat
-- Animaciones y efecto de cantidad de cartas
+- Implementar cartas roja y amarilla (posta)
+- Mejorar la seleccion del adversario
+
+UI/UX
+- Animaciones del chat
+- Efecto de cantidad de cartas
+- Cartas en empate
+
+REST API / BD
+- Todo
+

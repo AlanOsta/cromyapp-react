@@ -36,15 +36,6 @@ export const repartirMazo = () => {
     };
 };
 
-export const jugadorJuega = (atributo) => {
-    console.log ("actions "+atributo)
-        
-    return {
-        type : "JUGADOR_JUEGA",
-        atributo: atributo
-    }    
-}
-
 export const match = (atributoEnJuego, props) => {
     let mazo = props.mazo;
     let cartasJugador = props.cartasJugador;

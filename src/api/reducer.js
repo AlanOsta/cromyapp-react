@@ -58,12 +58,6 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
               cartaAdversario: action.mazo[action.cartasAdversario[0]]
              }
 
-        case "JUGADOR_JUEGA" :
-            console.log("reducer "+action.atributo);
-            return {...estadoPrevio,
-              atributoEnJuego: action.atributo              
-            }
-        
         case "GANO_JUGADOR" :
             
             return{...estadoPrevio,
