@@ -1,5 +1,5 @@
 const estadoInicial = {
-    debug: false,
+    debug: true,
     mazo: [],
     atributos: [],
     cartasJugador: [],

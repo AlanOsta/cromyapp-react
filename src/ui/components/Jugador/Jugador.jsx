@@ -51,7 +51,7 @@ const mapStateToProps = store => ({
     atributoEnJuego: store.atributoEnJuego,
     atributoAdversario: store.atributoAdversario,
     atributos: store.atributos,
-    chat: store.chat    
+    chat: store.chat
 });
 
 function mapDispatchToProps(dispatch) {

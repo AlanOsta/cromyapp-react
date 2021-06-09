@@ -6,7 +6,6 @@ LOGICA APP
 UI/UX
 - Animaciones del chat
 - Efecto de cantidad de cartas
-- Cartas en empate
 
 REST API / BD
 - Todo

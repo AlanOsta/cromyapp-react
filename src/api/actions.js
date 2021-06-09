@@ -70,20 +70,24 @@ export const match = (atributoEnJuego, props) => {
             "mensaje": atributos[atributoEnJuego]+" "+valorAtributoAdversario
         }
 
-        chat.push(lineaChatJugador);
-        if (turnoJugador) {chat.push(lineaChatAdversario);}
+        //chat.push(lineaChatJugador);
+        // if (turnoJugador) {chat.push(lineaChatAdversario);}
+        chat = [...chat, lineaChatJugador];        
+        if (turnoJugador) {chat = [...chat, lineaChatAdversario];}
         while (chat.length > lineasChatCount){chat.shift();}
         
         ///////// GANO EL JUGADOR /////////
         if (valorAtributoJugador > valorAtributoAdversario){
             // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
             if (cartasEmpate.length > 0) {
-                cartasEmpate.map(carta => cartasJugador.push(carta));
+                //cartasEmpate.map(carta => cartasJugador.push(carta));
+                cartasEmpate.map(carta => cartasJugador = [...cartasJugador, carta])
                 cartasEmpate=[];            
             }
 
             // Si el jugador gano, mueve las primeras cartas de ambos al final del array del jugador
-            cartasJugador.push(cartasJugador[0],cartasAdversario[0]);
+            //cartasJugador.push(cartasJugador[0],cartasAdversario[0]);
+            cartasJugador = [...cartasJugador,cartasJugador[0],cartasAdversario[0]]
             cartasJugador.shift();
             cartasAdversario.shift();
             
@@ -91,7 +95,8 @@ export const match = (atributoEnJuego, props) => {
                 "nombre": "Dealer",
                 "mensaje": "El Jugador gano la mano"
             }
-                chat.push(lineaChatDealer)
+                //chat.push(lineaChatDealer)
+                chat = [...chat, lineaChatDealer]
                 while (chat.length > lineasChatCount){chat.shift();}
 
             return (dispatch) => dispatch ({
@@ -107,12 +112,14 @@ export const match = (atributoEnJuego, props) => {
 
             // Si hay cartas en empate se asignan al final de array del Adversario y se eliminan del empate
             if (cartasEmpate.length > 0) {
-                cartasEmpate.map(carta => cartasAdversario.push(carta));
+                //cartasEmpate.map(carta => cartasAdversario.push(carta));
+                cartasEmpate.map(carta => cartasAdversario = [...cartasAdversario, carta])
                 cartasEmpate=[];            
             }
 
             // Si el Adversario gano, mueve las primeras cartas de ambos al final del array del Adversario
-            cartasAdversario.push(cartasAdversario[0], cartasJugador[0]);
+            //cartasAdversario.push(cartasAdversario[0], cartasJugador[0]);
+            cartasAdversario = [...cartasAdversario, cartasAdversario[0], cartasJugador[0]];
             cartasAdversario.shift();
             cartasJugador.shift();
 
@@ -121,7 +128,8 @@ export const match = (atributoEnJuego, props) => {
                 "nombre": "Dealer",
                 "mensaje": "El Adversario gano la mano"
             }
-                chat.push(lineaChatDealer)
+                //chat.push(lineaChatDealer)
+                chat = [...chat, lineaChatDealer];
                 while (chat.length > lineasChatCount){chat.shift();}
 
 
@@ -137,7 +145,8 @@ export const match = (atributoEnJuego, props) => {
                 "mensaje": atributos[atributoAdversario]+" "+valorAtributoAdversario
             }
             while (chat.length > lineasChatCount){chat.shift();}
-            chat.push(lineaChatAdversario);
+            //chat.push(lineaChatAdversario);
+            chat = [...chat, lineaChatAdversario];
                 
             return (dispatch) => dispatch({
                 type: "GANO_ADVERSARIO",
@@ -150,7 +159,8 @@ export const match = (atributoEnJuego, props) => {
 
         ///////// EMPATE /////////
         if (valorAtributoJugador === valorAtributoAdversario){
-            cartasEmpate.push(cartasJugador[0],cartasAdversario[0]);
+            //cartasEmpate = cartasEmpate.concat(cartasJugador[0],cartasAdversario[0]);
+            cartasEmpate = [...cartasEmpate, cartasJugador[0], cartasAdversario[0]];
             cartasJugador.shift();
             cartasAdversario.shift();
             
@@ -159,7 +169,8 @@ export const match = (atributoEnJuego, props) => {
                 "nombre": "Dealer",
                 "mensaje": "Empate !"
             }
-                chat.push(lineaChatDealer)
+                //chat.push(lineaChatDealer);
+                chat = [...chat, lineaChatDealer];
                 while (chat.length > lineasChatCount){chat.shift();}
 
             if (!turnoJugador){

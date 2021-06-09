@@ -1,25 +1,36 @@
-.jugador-container {
+.empate-container {
     display: flex;
-}
-
-.card {
     border: .07rem solid black;
     border-radius: .65rem;
-    width: 12rem;
+    flex-direction: column;
+}
+
+.cartas-empate-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.card-empate {
+    border: .07rem solid black;
+    border-radius: .65rem;
+    width: 5rem;
     padding: .3rem .65rem;
+    margin: .65rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     box-shadow: .3rem .3rem .65rem gray; 
     background-color: white;    
+    font-size: .3rem;  
 }
-.cardHeader {
+
+.cardHeader-empate {
     border: .07rem solid black;
     display: flex;
     flex-direction: row;
     justify-content: space-between;           
 }
-.cardHeader div:first-child, .cardHeader div:last-child {
+.cardHeader-empate div:first-child, .cardHeader-empate div:last-child {
     padding: .2rem .2rem;
     width: 1rem;
     font-weight: bold;
@@ -28,24 +39,30 @@
     justify-content: center;
     align-items: center;
 }
-.cardHeader div:first-child {
+.cardHeader-empate div:first-child {
     border-right: .07rem solid black;
 }
-.cardHeader div:last-child {
+.cardHeader-empate div:last-child {
     border-left: .07rem solid black;
 }
 
-.cardHeader div img {
-    height: 2rem;
-    margin-top: -0.25rem;
-    margin-left: -2rem;
+.cardHeader-empate div img {
+    height: .6rem;
+    margin-top: 0.5%;
+    margin-left: -1%;
     position: absolute;
 }
 
-.img {
+.img-container-empate {
+    
+    /* border: .07rem solid black; */
     display: flex;
     justify-content: center;
+}
 
+.img-container-empate img {
+    width: 75px;
+    height: 100%;  
 }
 
 .nombre {
@@ -54,13 +71,13 @@
     font-weight: bold;
 }
 
-.atributos {
+.atributos-empate {
     display: flex;
     justify-content: center;
     flex-direction: column;
 }
 
-.atributos > div {
+.atributos-empate > div {
     padding: 0rem 0.3rem;
     border: .07rem solid black;
     border-bottom: none;
@@ -69,16 +86,6 @@
     justify-content: space-between;
 }
 
-.atributos:last-child {
+.atributos-empate:last-child {
     border-bottom: .07rem solid black;
-}
-
-.atributos > div:hover {
-    background-color: teal;
-    cursor: pointer;
-}
-
-.anulado {
-    background-color: darkred;
-    cursor: not-allowed; 
 }
