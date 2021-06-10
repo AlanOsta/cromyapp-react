@@ -1,5 +1,6 @@
 const estadoInicial = {
     debug: true,
+    ganador: null,
     mazo: [],
     atributos: [],
     cartasJugador: [],
@@ -94,6 +95,46 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],              
             cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]],
             chat: action.chat
+          }
+
+        case "PARTIDA_JUGADOR" :
+          
+          return{...estadoPrevio,
+            atributoAdversario: null,
+            turnoJugador: true,
+            cartasJugador: action.cartasJugador,
+            cartasAdversario: action.cartasAdversario,
+            cartasEmpate: [],
+            cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],
+            cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]],
+            chat: action.chat,
+            ganador: "Jugador"
+          }
+
+          case "PARTIDA_ADVERSARIO" :
+                
+          return{...estadoPrevio,
+            turnoJugador: false,
+            atributoAdversario: action.atributoAdversario,
+            cartasJugador: action.cartasJugador,
+            cartasAdversario: action.cartasAdversario,
+            cartasEmpate: [],
+            cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],              
+            cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]],
+            chat: action.chat,
+            ganador: "Adversario"
+          }
+
+          case "SUMAR_CARTA" :
+          return{...estadoPrevio,
+            cartasJugador: action.cartasJugador,
+            cartasAdversario: action.cartasAdversario
+          }
+
+          case "RESTAR_CARTA" :
+          return{...estadoPrevio,
+            cartasJugador: action.cartasJugador,
+            cartasAdversario: action.cartasAdversario
           }
 
         default :

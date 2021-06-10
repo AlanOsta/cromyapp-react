@@ -47,12 +47,11 @@ export const match = (atributoEnJuego, props) => {
     let atributos = props.atributos;
     let turnoJugador = props.turnoJugador;
     let chat = props.chat;
-    let lineaChatDealer; 
-    let lineasChatCount = 8;
+    let lineaChatDealer;
+    let lineasChatCount = 8; //define la cantidad de lineas a mostrar en el chat
     
     if ( !turnoJugador && (atributoEnJuego !== atributoAdversario)){
-
-        console.log("Es el turno del adverasrio para elegir categoria")
+        alert("Es el turno del adversario para elegir categoria")
 
         return (dispatch) => dispatch({
             type: ""
@@ -70,8 +69,6 @@ export const match = (atributoEnJuego, props) => {
             "mensaje": atributos[atributoEnJuego]+" "+valorAtributoAdversario
         }
 
-        //chat.push(lineaChatJugador);
-        // if (turnoJugador) {chat.push(lineaChatAdversario);}
         chat = [...chat, lineaChatJugador];        
         if (turnoJugador) {chat = [...chat, lineaChatAdversario];}
         while (chat.length > lineasChatCount){chat.shift();}
@@ -80,13 +77,11 @@ export const match = (atributoEnJuego, props) => {
         if (valorAtributoJugador > valorAtributoAdversario){
             // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
             if (cartasEmpate.length > 0) {
-                //cartasEmpate.map(carta => cartasJugador.push(carta));
                 cartasEmpate.map(carta => cartasJugador = [...cartasJugador, carta])
                 cartasEmpate=[];            
             }
 
             // Si el jugador gano, mueve las primeras cartas de ambos al final del array del jugador
-            //cartasJugador.push(cartasJugador[0],cartasAdversario[0]);
             cartasJugador = [...cartasJugador,cartasJugador[0],cartasAdversario[0]]
             cartasJugador.shift();
             cartasAdversario.shift();
@@ -95,9 +90,19 @@ export const match = (atributoEnJuego, props) => {
                 "nombre": "Dealer",
                 "mensaje": "El Jugador gano la mano"
             }
-                //chat.push(lineaChatDealer)
                 chat = [...chat, lineaChatDealer]
                 while (chat.length > lineasChatCount){chat.shift();}
+
+            // Si el jugador gano la mano Y gano partida
+            if (cartasAdversario.length <= 0) {
+
+                return (dispatch) => dispatch ({
+                    type: "PARTIDA_JUGADOR",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    chat: chat                    
+                })
+            }else {
 
             return (dispatch) => dispatch ({
                 type: "GANO_JUGADOR",
@@ -105,6 +110,7 @@ export const match = (atributoEnJuego, props) => {
                 cartasAdversario: cartasAdversario,
                 chat: chat
             })
+            }
         }
 
         ///////// GANO EL ADVERSARIO /////////
@@ -112,13 +118,11 @@ export const match = (atributoEnJuego, props) => {
 
             // Si hay cartas en empate se asignan al final de array del Adversario y se eliminan del empate
             if (cartasEmpate.length > 0) {
-                //cartasEmpate.map(carta => cartasAdversario.push(carta));
                 cartasEmpate.map(carta => cartasAdversario = [...cartasAdversario, carta])
                 cartasEmpate=[];            
             }
 
             // Si el Adversario gano, mueve las primeras cartas de ambos al final del array del Adversario
-            //cartasAdversario.push(cartasAdversario[0], cartasJugador[0]);
             cartasAdversario = [...cartasAdversario, cartasAdversario[0], cartasJugador[0]];
             cartasAdversario.shift();
             cartasJugador.shift();
@@ -128,38 +132,45 @@ export const match = (atributoEnJuego, props) => {
                 "nombre": "Dealer",
                 "mensaje": "El Adversario gano la mano"
             }
-                //chat.push(lineaChatDealer)
                 chat = [...chat, lineaChatDealer];
                 while (chat.length > lineasChatCount){chat.shift();}
-
-
-            // ############ ELIJE EL ADVERSARIO ############
-            // Modificar a algo mas elaborado que un random
-            let atributoAdversario = Math.floor(Math.random()*5);
-            valorAtributoAdversario = mazo[cartasAdversario[0]].atributos[atributoAdversario].valor
-
-            ///////// CHAT  /////////
             
-            lineaChatAdversario = {
-                "nombre": "Adversario",
-                "mensaje": atributos[atributoAdversario]+" "+valorAtributoAdversario
-            }
-            while (chat.length > lineasChatCount){chat.shift();}
-            //chat.push(lineaChatAdversario);
-            chat = [...chat, lineaChatAdversario];
+            // Si el adversario gano la mano Y gano partida 
+            if (cartasJugador.length <= 0) {
+
+                return (dispatch) => dispatch ({
+                    type: "PARTIDA_ADVERSARIO",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    chat: chat                    
+                })
+            }else {
+                // ############ ELIJE EL ADVERSARIO ############
+                // Modificar a algo mas elaborado que un random
+                let atributoAdversario = Math.floor(Math.random()*5);
+                valorAtributoAdversario = mazo[cartasAdversario[0]].atributos[atributoAdversario].valor
+
+                ///////// CHAT  /////////
                 
-            return (dispatch) => dispatch({
-                type: "GANO_ADVERSARIO",
-                cartasJugador: cartasJugador,
-                cartasAdversario: cartasAdversario,
-                atributoAdversario: atributoAdversario,
-                chat: chat
-            })
+                lineaChatAdversario = {
+                    "nombre": "Adversario",
+                    "mensaje": atributos[atributoAdversario]+" "+valorAtributoAdversario
+                }
+                while (chat.length > lineasChatCount){chat.shift();}
+                chat = [...chat, lineaChatAdversario];
+                    
+                return (dispatch) => dispatch({
+                    type: "GANO_ADVERSARIO",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    atributoAdversario: atributoAdversario,
+                    chat: chat
+                })
+            }
         }
 
         ///////// EMPATE /////////
         if (valorAtributoJugador === valorAtributoAdversario){
-            //cartasEmpate = cartasEmpate.concat(cartasJugador[0],cartasAdversario[0]);
             cartasEmpate = [...cartasEmpate, cartasJugador[0], cartasAdversario[0]];
             cartasJugador.shift();
             cartasAdversario.shift();
@@ -169,12 +180,19 @@ export const match = (atributoEnJuego, props) => {
                 "nombre": "Dealer",
                 "mensaje": "Empate !"
             }
-                //chat.push(lineaChatDealer);
                 chat = [...chat, lineaChatDealer];
                 while (chat.length > lineasChatCount){chat.shift();}
 
             if (!turnoJugador){
-                let atributoAdversario = Math.floor(Math.random()*5);
+                atributoAdversario = Math.floor(Math.random()*5);
+                valorAtributoAdversario = mazo[cartasAdversario[0]].atributos[atributoAdversario].valor
+                lineaChatAdversario = {
+                    "nombre": "Adversario",
+                    "mensaje": atributos[atributoAdversario]+" "+valorAtributoAdversario
+                }
+                chat = [...chat, lineaChatAdversario]
+                while (chat.length > lineasChatCount){chat.shift();}
+
                 return (dispatch) => dispatch({
                     type: "EMPATE",
                     turnoJugador: turnoJugador,
@@ -196,5 +214,31 @@ export const match = (atributoEnJuego, props) => {
                 chat: chat
             })
         }
-    }  
+    }
+}
+
+export const sumarCarta = (props) => {
+    let cartasJugador = props.cartasJugador2
+    let cartasAdversario = props.cartasAdversario2
+    cartasJugador = [...cartasJugador, cartasAdversario[0]]
+    cartasAdversario.shift();
+
+    return (dispatch) => dispatch({
+        type: "SUMAR_CARTA",
+        cartasJugador: cartasJugador,
+        cartasAdversario: cartasAdversario
+    })
+}
+
+export const restarCarta = (props) => {
+    let cartasJugador = props.cartasJugador2
+    let cartasAdversario = props.cartasAdversario2
+    cartasAdversario = [...cartasAdversario, cartasJugador[0]]
+    cartasJugador.shift();
+
+    return (dispatch) => dispatch({
+        type: "RESTAR_CARTA",
+        cartasJugador: cartasJugador,
+        cartasAdversario: cartasAdversario
+    })
 }

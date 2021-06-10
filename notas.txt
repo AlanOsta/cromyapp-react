@@ -1,5 +1,4 @@
 LOGICA APP
-- Definir situacion de ganador
 - Implementar cartas roja y amarilla (posta)
 - Mejorar la seleccion del adversario
 
@@ -9,4 +8,3 @@ UI/UX
 
 REST API / BD
 - Todo
-
