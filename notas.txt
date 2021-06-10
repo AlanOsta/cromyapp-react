@@ -4,7 +4,6 @@ LOGICA APP
 
 UI/UX
 - Animaciones del chat
-- Efecto de cantidad de cartas
 
 REST API / BD
 - Todo

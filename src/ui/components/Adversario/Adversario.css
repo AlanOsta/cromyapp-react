@@ -1,3 +1,18 @@
 .adversario {
     margin-left: auto;    
 }
+
+.img-adversario {
+    /* position: absolute; */
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: .3rem .3rem .65rem gray;
+}
+
+.img-adversario-pila {
+    
+    border: 1px solid black;
+    border-right: 0px;
+    border-radius: 10px 0px 0px 10px;
+    box-shadow: .3rem .3rem .65rem gray;
+}
