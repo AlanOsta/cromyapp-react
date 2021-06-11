@@ -9,6 +9,12 @@ function shuffle(array) {
     return array;
 }
 
+// function chatHandler(chat, nombre, mensaje){
+//     let lineasChatCount = 8; //define la cantidad de lineas a mostrar en el chat
+        
+//     return (chat)
+// }
+
 export const repartirMazo = () => {
     let cartasJugador = [];
     let cartasAdversario = [];
@@ -41,8 +47,6 @@ export const match = (atributoEnJuego, props) => {
     let cartasJugador = props.cartasJugador;
     let cartasAdversario = props.cartasAdversario;
     let cartasEmpate = props.cartasEmpate;
-    let valorAtributoJugador = props.cartaJugador.atributos[atributoEnJuego].valor;
-    let valorAtributoAdversario = props.cartaAdversario.atributos[atributoEnJuego].valor;
     let atributoAdversario = props.atributoAdversario;
     let atributos = props.atributos;
     let turnoJugador = props.turnoJugador;
@@ -50,8 +54,12 @@ export const match = (atributoEnJuego, props) => {
     let lineaChatDealer;
     let lineasChatCount = 8; //define la cantidad de lineas a mostrar en el chat
     
-    if ( !turnoJugador && (atributoEnJuego !== atributoAdversario)){
-        alert("Es el turno del adversario para elegir categoria")
+    let valorAtributoJugador = atributoEnJuego === 32 || atributoEnJuego === 33 ? props.cartaJugador.atributos[1].valor : props.cartaJugador.atributos[atributoEnJuego].valor;
+    let valorAtributoAdversario = atributoEnJuego === 32 || atributoEnJuego === 33 ? props.cartaAdversario.atributos[1].valor : props.cartaAdversario.atributos[atributoEnJuego].valor;
+
+    // Cuando es el turno del adverario previene que el jugador elija otra catergoria
+    if ( !turnoJugador && (atributoEnJuego !== atributoAdversario) && (atributoEnJuego !== 32) && (atributoEnJuego !== 33)){
+        alert("Solo puedes jugar la categoria elejida por al adversario")
 
         return (dispatch) => dispatch({
             type: ""
@@ -73,48 +81,86 @@ export const match = (atributoEnJuego, props) => {
         if (turnoJugador) {chat = [...chat, lineaChatAdversario];}
         while (chat.length > lineasChatCount){chat.shift();}
         
-        ///////// GANO EL JUGADOR /////////
-        if (valorAtributoJugador > valorAtributoAdversario){
+        ///////// GANO EL JUGADOR (por valor de atributo, por carta amarilla o por carta roja) /////////
+        if (valorAtributoJugador > valorAtributoAdversario || atributoEnJuego === 33 || atributoEnJuego === 32){
+
             // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
             if (cartasEmpate.length > 0) {
                 cartasEmpate.map(carta => cartasJugador = [...cartasJugador, carta])
                 cartasEmpate=[];            
             }
 
-            // Si el jugador gano, mueve las primeras cartas de ambos al final del array del jugador
-            cartasJugador = [...cartasJugador,cartasJugador[0],cartasAdversario[0]]
-            cartasJugador.shift();
-            cartasAdversario.shift();
-            
-            lineaChatDealer = {
-                "nombre": "Dealer",
-                "mensaje": "El Jugador gano la mano"
-            }
-                chat = [...chat, lineaChatDealer]
-                while (chat.length > lineasChatCount){chat.shift();}
+            // Si el jugador gano con carta roja recibira del adversario sus ultimas dos cartas, la carta roja se saca de la partida
+            if ( atributoEnJuego === 33 ) {
+                console.log ("Jugador carta Roja")
+                cartasJugador = [...cartasJugador, cartasAdversario[cartasAdversario.length-1], cartasAdversario[cartasAdversario.length-2]]
+                cartasJugador.shift();
+                cartasAdversario.shift();
+                cartasAdversario.shift();
+                
+                lineaChatDealer = {
+                    "nombre": "Dealer",
+                    "mensaje": "El Jugador gano la mano"
+                }
+                    chat = [...chat, lineaChatDealer]
+                    while (chat.length > lineasChatCount){chat.shift();}
 
-            // Si el jugador gano la mano Y gano partida
-            if (cartasAdversario.length <= 0) {
+                // Si el jugador gano la mano Y gano partida
+                if (cartasAdversario.length <= 0) {
 
-                return (dispatch) => dispatch ({
-                    type: "PARTIDA_JUGADOR",
-                    cartasJugador: cartasJugador,
-                    cartasAdversario: cartasAdversario,
-                    chat: chat                    
-                })
+                    return (dispatch) => dispatch ({
+                        type: "PARTIDA_JUGADOR",
+                        cartasJugador: cartasJugador,
+                        cartasAdversario: cartasAdversario,
+                        chat: chat                    
+                    })
+                }else {
+
+                    return (dispatch) => dispatch ({
+                        type: "GANO_JUGADOR",
+                        cartasJugador: cartasJugador,
+                        cartasAdversario: cartasAdversario,
+                        chat: chat
+                    })
+                }
+
             }else {
 
-            return (dispatch) => dispatch ({
-                type: "GANO_JUGADOR",
-                cartasJugador: cartasJugador,
-                cartasAdversario: cartasAdversario,
-                chat: chat
-            })
-            }
-        }
+                // Si el jugador gano por valor de atributo o por carta amarilla, mueve las primeras cartas de ambos al final del array del jugador
+                cartasJugador = atributoEnJuego === 32 ? [...cartasJugador, cartasAdversario[0]] : [...cartasJugador, cartasJugador[0], cartasAdversario[0]];
+                cartasJugador.shift();
+                cartasAdversario.shift();
+                
+                lineaChatDealer = {
+                    "nombre": "Dealer",
+                    "mensaje": "El Jugador gano la mano"
+                }
+                    chat = [...chat, lineaChatDealer]
+                    while (chat.length > lineasChatCount){chat.shift();}
 
-        ///////// GANO EL ADVERSARIO /////////
-        if (valorAtributoJugador < valorAtributoAdversario){
+                // Si el jugador gano la mano Y gano partida
+                if (cartasAdversario.length <= 0) {
+
+                    return (dispatch) => dispatch ({
+                        type: "PARTIDA_JUGADOR",
+                        cartasJugador: cartasJugador,
+                        cartasAdversario: cartasAdversario,
+                        chat: chat                    
+                    })
+                }else {
+
+                return (dispatch) => dispatch ({
+                    type: "GANO_JUGADOR",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    chat: chat
+                })
+                }
+        }
+    }
+
+        ///////// GANO EL ADVERSARIO (por valor de atributo, por carta amarilla o por carta roja) /////////
+        if (valorAtributoJugador < valorAtributoAdversario || atributoEnJuego === 33 || atributoEnJuego === 32){
 
             // Si hay cartas en empate se asignan al final de array del Adversario y se eliminan del empate
             if (cartasEmpate.length > 0) {

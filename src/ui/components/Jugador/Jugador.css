@@ -82,3 +82,15 @@
     background-color: darkred;
     cursor: not-allowed; 
 }
+
+.roja:hover, .amarilla:hover {
+    cursor: pointer;
+}
+
+.roja {
+    background-color: red;
+}
+
+.amarilla {
+    background-color: yellow;
+}

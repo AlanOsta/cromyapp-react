@@ -9,6 +9,24 @@ const Jugador = (props) => {
     const handleClick = (atributoEnJuego, props) => {
         props.match(atributoEnJuego, props);
     }
+
+    if (props.cartaJugador.id === 32) {
+        return (
+            <div className="jugador-container">
+                <div className="card amarilla" onClick={() => handleClick(32, props)}/>                
+                <Chat />
+            </div>
+        )
+    }
+
+    if (props.cartaJugador.id === 33) {
+        return (
+            <div className="jugador-container">
+                <div className="card roja" onClick={() => handleClick(33, props)}/>                
+                <Chat />
+            </div>
+        )
+    }
     
     return (
         <div className="jugador-container">
