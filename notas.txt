@@ -1,5 +1,4 @@
 LOGICA APP
-- Implementar cartas roja y amarilla (posta)
 - Mejorar la seleccion del adversario
 
 UI/UX

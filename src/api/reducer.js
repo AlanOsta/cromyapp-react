@@ -128,13 +128,17 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
           case "SUMAR_CARTA" :
           return{...estadoPrevio,
             cartasJugador: action.cartasJugador,
-            cartasAdversario: action.cartasAdversario
+            cartasAdversario: action.cartasAdversario,
+            cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],
+            cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]]
           }
 
           case "RESTAR_CARTA" :
           return{...estadoPrevio,
             cartasJugador: action.cartasJugador,
-            cartasAdversario: action.cartasAdversario
+            cartasAdversario: action.cartasAdversario,
+            cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]],
+            cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]]
           }
 
         default :
