@@ -1,5 +1,9 @@
 LOGICA APP
 - Mejorar la seleccion del adversario
+- Contemplar la condicion donde el Juegador arranca con una carta amarilla o roja
+- Hay un error grosero en la logica del chat
+
+- Revisar Actions linea 131
 
 UI/UX
 - Animaciones del chat

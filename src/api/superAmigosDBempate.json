@@ -1103,22 +1103,22 @@
         {
           "id": 1,
           "nombre": "Peso",
-          "valor": 1000000
+          "valor": 32000000
         },
         {
           "id": 2,
           "nombre": "Fuerza",
-          "valor": 1000000
+          "valor": 32000000
         },
         {
           "id": 3,
           "nombre": "Peleas Ganadas",
-          "valor": 1000000
+          "valor": 32000000
         },
         {
           "id": 4,
           "nombre": "Velocidad",
-          "valor": 1000000
+          "valor": 32000000
         }
       ]
     },
@@ -1137,22 +1137,22 @@
         {
           "id": 1,
           "nombre": "Peso",
-          "valor": 1000000
+          "valor": 33000000
         },
         {
           "id": 2,
           "nombre": "Fuerza",
-          "valor": 1000000
+          "valor": 33000000
         },
         {
           "id": 3,
           "nombre": "Peleas Ganadas",
-          "valor": 1000000
+          "valor": 33000000
         },
         {
           "id": 4,
           "nombre": "Velocidad",
-          "valor": 1000000
+          "valor": 33000000
         }
       ]
     }

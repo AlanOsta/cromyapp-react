@@ -6,6 +6,7 @@
     border: .07rem solid black;
     border-radius: .65rem;
     width: 12rem;
+    min-height: 340px;
     padding: .3rem .65rem;
     display: flex;
     flex-direction: column;

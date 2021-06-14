@@ -6,7 +6,7 @@ const estadoInicial = {
     cartasJugador: [],
     cartasAdversario: [],
     cartasEmpate: [],
-    turnoJugador: true ,    
+    turnoJugador: true,    
     atributoAdversario: null,  
     cartaJugador: {
         "id": null,
@@ -56,7 +56,8 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
               cartasJugador: action.cartasJugador,
               cartasAdversario: action.cartasAdversario,
               cartaJugador: action.mazo[action.cartasJugador[0]],
-              cartaAdversario: action.mazo[action.cartasAdversario[0]]
+              cartaAdversario: action.mazo[action.cartasAdversario[0]],
+              chat: action.chat
              }
 
         case "GANO_JUGADOR" :
