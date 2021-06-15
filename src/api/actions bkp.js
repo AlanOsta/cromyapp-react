@@ -31,18 +31,10 @@ export const repartirMazo = () => {
     chat = chatHandler(chat, "Dealer", "Comienza el Juego!")
     
     return (dispatch) => {
-        
-        fetch('./superAmigosDBv2local.json',
-        {
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-           }
-        })
+        fetch("http://localhost:3000/cartas")
         .then (res=>res.json())
         .then (res=>{
-            //let atributos = res.cartas[0].atributos.map( atributo => atributo.nombre)
-            let atributos = ['Altura', 'Peso', 'Fuerza', 'Peleas Ganadas', 'Velocidad']
+            let atributos = res[0].atributos.map( atributo => atributo.nombre)
             dispatch({
                 type: "REPARTIR_MAZO",
                 mazo: res,
@@ -65,7 +57,6 @@ export const match = (atributoEnJuego, props) => {
     let cartasEmpate = props.cartasEmpate;
     let atributoAdversario = props.atributoAdversario;
     let cartaAdversario = props.cartaAdversario;
-    let cartaJugador = props.cartaJugador;
     let atributos = props.atributos;
     let turnoJugador = props.turnoJugador;
     let chat = props.chat;
@@ -74,18 +65,15 @@ export const match = (atributoEnJuego, props) => {
     let valorAtributoAdversario = atributoEnJuego === 32 || atributoEnJuego === 33 ? props.cartaAdversario.atributos[1].valor : props.cartaAdversario.atributos[atributoEnJuego].valor;
     //let valorAtributoAdversario = props.cartaAdversario.atributos[atributoEnJuego].valor;
 
-    
-    
     // Cuando es el turno del adversario previene que el jugador elija otra catergoria
     if ( !turnoJugador && (atributoEnJuego !== atributoAdversario) && (atributoEnJuego !== 32) && (atributoEnJuego !== 33)){
         alert("Solo puedes jugar la categoria elejida por al adversario")
-        /*return (dispatch) => dispatch({
+        return (dispatch) => dispatch({
             type: ""
-        })*/
-        return;
+        })
 
     }else {
-        console.log("Atributo en juego: "+atributoEnJuego+" / Jug: "+valorAtributoJugador+" / Adv: "+valorAtributoAdversario)
+
         ///////// CHAT  /////////
         switch (atributoEnJuego) {
             case 32:
@@ -96,13 +84,12 @@ export const match = (atributoEnJuego, props) => {
                 break;
             default:
                 chat = chatHandler(chat, "Jugador", atributos[atributoEnJuego]+" "+valorAtributoJugador+" (sw jug)");
-                if (turnoJugador && cartaAdversario.id !== 32 && cartaAdversario.id !== 33) {chat = chatHandler(chat, "Adversario", atributos[atributoEnJuego]+" "+valorAtributoAdversario+" (sw jug)");}
+                if (turnoJugador) {chat = chatHandler(chat, "Adversario", atributos[atributoEnJuego]+" "+valorAtributoAdversario+" (sw jug)");}
         }
-
         
         ///////// GANO EL JUGADOR (por valor de atributo, por carta amarilla o por carta roja) /////////
-        if ((valorAtributoJugador > valorAtributoAdversario || cartaJugador.id === 32 || cartaJugador.id === 33) && (cartaAdversario.id !== 32) && (cartaAdversario.id !== 33)){
-            
+        if (valorAtributoJugador > valorAtributoAdversario || atributoEnJuego === 33 || atributoEnJuego === 32){
+
             // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
             if (cartasEmpate.length > 0) {
                 cartasEmpate.map(carta => cartasJugador = [...cartasJugador, carta])
@@ -184,8 +171,7 @@ export const match = (atributoEnJuego, props) => {
             }
 
             // Si gano por valor de atributo
-            if ((valorAtributoJugador < valorAtributoAdversario && cartaAdversario.id !== 32) || (valorAtributoJugador < valorAtributoAdversario && cartaAdversario.id !== 33)){
-                console.log("Adv gano por atributo con la carta nº"+cartaAdversario.id)
+            if (valorAtributoJugador < valorAtributoAdversario && (cartaAdversario.id ==! 32 || cartaAdversario.id ==! 33)){
 
                 cartasAdversario = [...cartasAdversario, cartasAdversario[0], cartasJugador[0]];
                 cartasAdversario.shift();
@@ -204,15 +190,10 @@ export const match = (atributoEnJuego, props) => {
                 }else { // EL ADVERSARIO GANO LA MANO POR VALOR DE ATRIBUTO Y ELIJE ATRIBUTO
                         // deberia chequear si las proximas cartas son especiales pero por ahora queda simple
                         ////////////// chequeo proxima carta es roja o amarilla
-                        console.log ("la proxima carta del adversario es la nº"+cartasAdversario[0])
-                        switch (cartasAdversario[0]){
+                        switch (cartasAdversario[0].id){
                             case 32 :
-                                // Si la proxima carta es Amarilla
-                                chat = chatHandler(chat, "Adversario", "Proxima carta Amarilla (adv elije)");
                                 break;
                             case 33 :
-                                chat = chatHandler(chat, "Adversario", "Proxima carta Roja (adv elije)");
-                                // Si la proxima carta es Roja
                                 break;
                             default :
                                 atributoAdversario = Math.floor(Math.random()*5); // Modificar a algo mas elaborado que un random
@@ -359,11 +340,28 @@ export const match = (atributoEnJuego, props) => {
                             })
                         }
                     }
+                    //else {
+                    //     // La siguiente carta no es amarilla
+                    //     // Elige atributo de la proxima mano
+                    //     let atributoAdversario = Math.floor(Math.random()*5); // Modificar a algo mas elaborado que un random
+                    //     valorAtributoAdversario = mazo[cartasAdversario[0]].atributos[atributoAdversario].valor
+
+                    //     chat = chatHandler(chat, "Adversario", atributos[atributoAdversario]+" "+valorAtributoAdversario);
+
+                    //     return (dispatch) => dispatch({
+                    //     type: "GANO_ADVERSARIO",
+                    //     cartasJugador: cartasJugador,
+                    //     cartasAdversario: cartasAdversario,
+                    //     atributoAdversario: atributoAdversario,
+                    //     chat: chat
+                    //     })
+                    // }
                 }
             }
+
+
         }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*            
+            
         // Si gano SOLO por valor de atributo o por carta amarilla
         if (valorAtributoJugador < valorAtributoAdversario || cartaAdversario.id === 32 ){
             
@@ -424,7 +422,6 @@ export const match = (atributoEnJuego, props) => {
                 }
             }
         }
-*/
     }
 
 /////////////////////// EMPATE ////////////////////
@@ -444,7 +441,7 @@ export const match = (atributoEnJuego, props) => {
 
                 return (dispatch) => dispatch({
                     type: "EMPATE",
-                    turnoJugador: false,
+                    turnoJugador: turnoJugador,
                     atributoAdversario: atributoAdversario,
                     cartasJugador: cartasJugador,
                     cartasAdversario: cartasAdversario,
