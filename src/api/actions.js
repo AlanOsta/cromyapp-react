@@ -72,17 +72,20 @@ export const match = (atributoEnJuego, props) => {
     let chat = props.chat;
 
 
-    if (!turnoJugador) {
+    if (!turnoJugador && (atributoEnJuego !== atributoAdversario)) {
         alert("Solo puedes jugar la categoria elegida por al adversario")
         return (dispatch) => dispatch({
-            type: ""
+            type: "NADA"
         })
     }else {
-        
+        console.log(cartaJugador.id)
+        console.log(cartaAdversario.id)
         // Si ambos tienen cartas comunes el match se disputa por valor de atributos
-        if (((cartaJugador.id =! 32) || (cartaJugador.id =! 33)) && ((cartaAdversario.id =! 32) || (cartaAdversario.id =! 33))){
-            
+        if ((cartaJugador.id !== 32) && (cartaJugador.id !== 33) && (cartaAdversario.id !== 32) && (cartaAdversario.id !== 33)){
+            console.log("Cartas comunes")
             //////// Gano el jugador con cartas comunes por valor de atributo //////
+            console.log(cartaJugador.atributos[atributoEnJuego].valor)
+            console.log(cartaAdversario.atributos[atributoEnJuego].valor)
             if ( cartaJugador.atributos[atributoEnJuego].valor > cartaAdversario.atributos[atributoEnJuego].valor ){
 
                 // Se asignan las cartas en disputa al mazo del jugador
@@ -210,7 +213,7 @@ export const match = (atributoEnJuego, props) => {
         alert("Solo puedes jugar la categoria elegida por al adversario")
         return (dispatch) => dispatch({
             type: ""
-        })*/
+        })
         return;
 
     }else {
