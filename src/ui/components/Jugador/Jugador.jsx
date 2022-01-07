@@ -44,7 +44,7 @@ const Jugador = (props) => {
                 </div>
                 <div className="atributos">
                     {props.cartaJugador.atributos.map(atributo => 
-                        <div key={atributo.nombre} className={props.turnoJugador || (atributo.id === props.atributoAdversario) ? "" : "anulado"} onClick={() => handleClick(atributo.id, props)}>
+                        <div key={atributo.nombre} className={props.turnoJugador || (atributo.id === props.atributoAdversario) ? "habilitado" : "anulado"} onClick={() => handleClick(atributo.id, props)}>
                             <div>{atributo.nombre}</div>
                             <div>{atributo.valor}</div>
                         </div>
