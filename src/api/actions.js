@@ -213,10 +213,8 @@ export const match = (atributoEnJuego, props) => {
                 
                 // Si no es el turno del jugador el adversario elige atributo
                 if (!turnoJugador){
-                    atributoAdversario = Math.floor(Math.random()*5);
-                    //valorAtributoAdversario = mazo[cartasAdversario[0]].atributos[atributoAdversario].valor
-
-                    //chat = chatHandler(chat, "Adversario", atributos[atributoEnJuego]+" "+valorAtributoAdversario);
+                    atributoAdversario = Math.floor(Math.random()*5);                   
+                    chat = chatHandler(chat, "Adversario", atributos[atributoAdversario]+" "+mazo[cartasAdversario[0]].atributos[atributoAdversario].valor);
 
                     return (dispatch) => dispatch({
                         type: "EMPATE",
@@ -250,6 +248,13 @@ export const match = (atributoEnJuego, props) => {
             cartasJugador.shift();
             cartasAdversario.shift();
 
+
+            // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
+            if (cartasEmpate.length > 0) {
+                cartasEmpate.map(carta => cartasJugador = [...cartasJugador, carta])
+                cartasEmpate=[];            
+            }
+
             // Chequea si gano partida
             if (cartasAdversario.length <= 0) {
 
@@ -282,6 +287,12 @@ export const match = (atributoEnJuego, props) => {
             cartasAdversario.shift();
             cartasAdversario.shift();
 
+            // Si hay cartas en empate se asignan al final de array del jugador y se eliminan del empate
+            if (cartasEmpate.length > 0) {
+                cartasEmpate.map(carta => cartasJugador = [...cartasJugador, carta])
+                cartasEmpate=[];            
+            }
+
             // Chequea si gano partida
             if (cartasAdversario.length <= 0) {
 
@@ -304,12 +315,84 @@ export const match = (atributoEnJuego, props) => {
         }
 
         // Si el adversario tiene carta amarilla
-        if (cartaAdversario.id !== 32) {
+        if (cartaAdversario.id === 32) {
+            // Chat //
+            chat = chatHandler(chat, "Adversario", "Amarilla!");
+            chat = chatHandler(chat, "Dealer", "El adversario gana la mano con carta amarilla");
 
+            cartasAdversario = [...cartasAdversario, cartasJugador[0]];
+            cartasAdversario.shift();
+            cartasJugador.shift();
+
+            // Si hay cartas en empate se asignan al final de array del adversario y se eliminan del empate
+            if (cartasEmpate.length > 0) {
+                cartasEmpate.map(carta => cartasAdversario = [...cartasAdversario, carta])
+                cartasEmpate=[];            
+            }
+
+            // Chequea si gano partida
+            if (cartasJugador.length <= 0) {
+                return (dispatch) => dispatch ({
+                    type: "PARTIDA_ADVERSARIO",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    chat: chat 
+                })
+            }
+
+            // El adversario gano la partida y elige atributo
+            atributoAdversario = Math.floor(Math.random()*5); // Modificar a algo mas elaborado que un random
+            // Chat //                    
+            chat = chatHandler(chat, "Adversario", atributos[atributoAdversario]+" "+mazo[cartasAdversario[0]].atributos[atributoAdversario].valor);
+                                        
+            return (dispatch) => dispatch({
+                    type: "GANO_ADVERSARIO",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    atributoAdversario: atributoAdversario,
+                    chat: chat
+            })
         }
 
-        // Si el adversario tiene carta amarilla
-        if (cartaAdversario.id !== 33) {
+        // Si el adversario tiene carta roja
+        if (cartaAdversario.id === 33) {
+            // Chat //
+            chat = chatHandler(chat, "Adversario", "Roja!");
+            chat = chatHandler(chat, "Dealer", "El adversario gana la mano con carta roja");
+            
+            cartasAdversario = [...cartasAdversario, cartasJugador[cartasJugador.length-1], cartasJugador[cartasJugador.length-2]]
+            cartasAdversario.shift();
+            cartasJugador.shift();
+            cartasJugador.shift();
+
+            // Si hay cartas en empate se asignan al final de array del adversario y se eliminan del empate
+            if (cartasEmpate.length > 0) {
+                cartasEmpate.map(carta => cartasAdversario = [...cartasAdversario, carta])
+                cartasEmpate=[];            
+            }
+
+            // Chequea si gano partida
+            if (cartasJugador.length <= 0) {
+                return (dispatch) => dispatch ({
+                    type: "PARTIDA_ADVERSARIO",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    chat: chat 
+                })
+            }
+
+            // El adversario gano la partida y elige atributo
+            atributoAdversario = Math.floor(Math.random()*5); // Modificar a algo mas elaborado que un random
+            // Chat //                    
+            chat = chatHandler(chat, "Adversario", atributos[atributoAdversario]+" "+mazo[cartasAdversario[0]].atributos[atributoAdversario].valor);
+                                        
+            return (dispatch) => dispatch({
+                    type: "GANO_ADVERSARIO",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    atributoAdversario: atributoAdversario,
+                    chat: chat
+            })
             
         }
 
