@@ -75,19 +75,21 @@ export const match = (atributoEnJuego, props) => {
     if (!turnoJugador && (atributoEnJuego !== atributoAdversario)) {
         alert("Solo puedes jugar la categoria elegida por al adversario")
         return (dispatch) => dispatch({
-            type: "NADA"
+            type: ""
         })
     }else {
-        console.log(cartaJugador.id)
-        console.log(cartaAdversario.id)
+        
         // Si ambos tienen cartas comunes el match se disputa por valor de atributos
         if ((cartaJugador.id !== 32) && (cartaJugador.id !== 33) && (cartaAdversario.id !== 32) && (cartaAdversario.id !== 33)){
-            console.log("Cartas comunes")
+            
+            //// Chat ////
+            chat = chatHandler(chat, "Jugador", atributos[atributoEnJuego]+" "+cartaJugador.atributos[atributoEnJuego].valor);
+            if (turnoJugador){ chat = chatHandler(chat, "Adversario", atributos[atributoEnJuego]+" "+cartaAdversario.atributos[atributoEnJuego].valor)}
+            
             //////// Gano el jugador con cartas comunes por valor de atributo //////
-            console.log(cartaJugador.atributos[atributoEnJuego].valor)
-            console.log(cartaAdversario.atributos[atributoEnJuego].valor)
             if ( cartaJugador.atributos[atributoEnJuego].valor > cartaAdversario.atributos[atributoEnJuego].valor ){
-
+                // Chat //
+                chat = chatHandler(chat, "Dealer", "El jugador gana la mano");
                 // Se asignan las cartas en disputa al mazo del jugador
                 cartasJugador = [...cartasJugador, cartasJugador[0], cartasAdversario[0]];
                 cartasJugador.shift();
@@ -120,7 +122,8 @@ export const match = (atributoEnJuego, props) => {
             
             /////// Gano el adversario con cartas comunes por valor de atributo  /////
             }else if ( cartaAdversario.atributos[atributoEnJuego].valor > cartaJugador.atributos[atributoEnJuego].valor ){
-
+                // Chat //
+                chat = chatHandler(chat, "Dealer", "El adversario gana la mano");
                 // Se asignan las cartas en disputa al mazo del adversario
                 cartasAdversario = [...cartasAdversario, cartasAdversario[0], cartasJugador[0]];
                 cartasAdversario.shift();
@@ -132,7 +135,7 @@ export const match = (atributoEnJuego, props) => {
                     cartasEmpate=[];            
                 }
 
-                // Si el adversario gano la mano Y gano partida
+                // Chequea si gano partida
                 if (cartasJugador.length <= 0) {
                     return (dispatch) => dispatch ({
                         type: "PARTIDA_ADVERSARIO",
@@ -141,15 +144,55 @@ export const match = (atributoEnJuego, props) => {
                         chat: chat                    
                     })
                 }else { 
-                    // Si el adversario solo gano la mano elige atributo
-                    // deberia chequear si las proximas cartas son especiales pero por ahora queda simple
-                    ////////////// Debo chequear si la proxima carta es roja o amarilla
+                    // El adversario solo gano la mano pero todavia no despache la accion
+                    // Si su siguiente carta es amarilla gana la mano automaticamente, recibe la primera carta del jugador y la carta amarrilla se quita del juego
+                    if (cartasAdversario[0] === 32 ) {
+                        // Chat //
+                        chat = chatHandler(chat, "Adversario", "Amarilla!");
+                        chat = chatHandler(chat, "Dealer", "El adversario gana la mano con carta amarilla");
 
+                        cartasAdversario = [...cartasAdversario, cartasJugador[0]];
+                        cartasAdversario.shift();
+                        cartasJugador.shift();
+
+                        // Chequea si gano partida
+                        if (cartasJugador.length <= 0) {
+                            return (dispatch) => dispatch ({
+                                type: "PARTIDA_ADVERSARIO",
+                                cartasJugador: cartasJugador,
+                                cartasAdversario: cartasAdversario,
+                                chat: chat 
+                            })
+                        }
+                    }
+
+                    // Si su siguiente carta es roja gana la mano automaticamente, recibe las dos ultimas cartas del jugador y la carta roja se quita del juego
+                    if (cartasAdversario[0] === 33 ) {
+                        // Chat //
+                        chat = chatHandler(chat, "Adversario", "Roja!");
+                        chat = chatHandler(chat, "Dealer", "El adversario gana la mano con carta roja");
+                        
+                        cartasAdversario = [...cartasAdversario, cartasJugador[cartasJugador.length-1], cartasJugador[cartasJugador.length-2]]
+                        cartasAdversario.shift();
+                        cartasJugador.shift();
+                        cartasJugador.shift();
+
+                        // Chequea si gano partida
+                        if (cartasJugador.length <= 0) {
+                            return (dispatch) => dispatch ({
+                                type: "PARTIDA_ADVERSARIO",
+                                cartasJugador: cartasJugador,
+                                cartasAdversario: cartasAdversario,
+                                chat: chat 
+                            })
+                        }                        
+                    }
+
+                    // Como no tuvo cartas especiales el adversario elige el proximo atributo
                     atributoAdversario = Math.floor(Math.random()*5); // Modificar a algo mas elaborado que un random
-                    //valorAtributoAdversario = mazo[cartasAdversario[0]].atributos[atributoAdversario].valor
-                    
-                    // Chat chat = chatHandler(chat, "Adversario", atributos[atributoAdversario]+" "+valorAtributoAdversario+" (adv elije)");
-                    
+                    // Chat //                    
+                    chat = chatHandler(chat, "Adversario", atributos[atributoAdversario]+" "+mazo[cartasAdversario[0]].atributos[atributoAdversario].valor);
+                                        
                     return (dispatch) => dispatch({
                         type: "GANO_ADVERSARIO",
                         cartasJugador: cartasJugador,
@@ -197,6 +240,80 @@ export const match = (atributoEnJuego, props) => {
                 }
             }
         }
+        // Si el jugador tiene carta amarilla
+        if (cartaJugador.id !== 32) {
+            // Chat //
+            chat = chatHandler(chat, "Jugador", "Amarilla!");
+            chat = chatHandler(chat, "Dealer", "El jugador gana la mano con carta amarilla");
+
+            cartasJugador = [...cartasJugador, cartasAdversario[0]];
+            cartasJugador.shift();
+            cartasAdversario.shift();
+
+            // Chequea si gano partida
+            if (cartasAdversario.length <= 0) {
+
+                return (dispatch) => dispatch ({
+                    type: "PARTIDA_JUGADOR",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    chat: chat                    
+                })
+            }else {
+                // Si el jugador solo gano la mano
+                return (dispatch) => dispatch ({
+                    type: "GANO_JUGADOR",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    chat: chat
+                })                    
+            }
+
+        }
+
+        // Si el jugador tiene carta roja
+        if (cartaJugador.id !== 33) {
+            // Chat //
+            chat = chatHandler(chat, "Jugador", "Roja!");
+            chat = chatHandler(chat, "Dealer", "El jugador gana la mano con carta roja");
+
+            cartasJugador = [...cartasJugador, cartasAdversario[cartasAdversario.length-1], cartasAdversario[cartasAdversario.length-2]]
+            cartasJugador.shift();
+            cartasAdversario.shift();
+            cartasAdversario.shift();
+
+            // Chequea si gano partida
+            if (cartasAdversario.length <= 0) {
+
+                return (dispatch) => dispatch ({
+                    type: "PARTIDA_JUGADOR",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    chat: chat                    
+                })
+            }else {
+                // Si el jugador solo gano la mano
+                return (dispatch) => dispatch ({
+                    type: "GANO_JUGADOR",
+                    cartasJugador: cartasJugador,
+                    cartasAdversario: cartasAdversario,
+                    chat: chat
+                })                    
+            }
+
+        }
+
+        // Si el adversario tiene carta amarilla
+        if (cartaAdversario.id !== 32) {
+
+        }
+
+        // Si el adversario tiene carta amarilla
+        if (cartaAdversario.id !== 33) {
+            
+        }
+
+
     }
 
 }
