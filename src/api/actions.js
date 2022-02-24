@@ -46,6 +46,7 @@ export const repartirMazo = () => {
             let atributos = ['Altura', 'Peso', 'Fuerza', 'Peleas Ganadas', 'Velocidad']
             dispatch({
                 type: "REPARTIR_MAZO",
+                intro: false,
                 mazo: res,
                 atributos: atributos,
                 cartasJugador: cartasJugador,

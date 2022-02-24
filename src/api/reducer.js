@@ -1,5 +1,6 @@
 const estadoInicial = {
-    debug: true,
+    debug: false,
+    intro: false,
     ganador: null,
     mazo: [{
       "id": 0,
@@ -1208,6 +1209,7 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             return {...estadoPrevio,              
               //mazo: action.mazo, 
               //atributos: action.atributos,
+              intro: action.intro,
               cartasJugador: action.cartasJugador,
               cartasAdversario: action.cartasAdversario,
               cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]], // LOCAL

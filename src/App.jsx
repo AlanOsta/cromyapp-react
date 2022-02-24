@@ -4,7 +4,7 @@ import store  from "./api/store"
 
 function App() {
   return (
-    <Provider store={store}> 
+    <Provider store={store}>
       <Tablero />
     </Provider>
   );
