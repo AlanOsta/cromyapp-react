@@ -46,7 +46,6 @@ export const repartirMazo = () => {
             let atributos = ['Altura', 'Peso', 'Fuerza', 'Peleas Ganadas', 'Velocidad']
             dispatch({
                 type: "REPARTIR_MAZO",
-                intro: false,
                 mazo: res,
                 atributos: atributos,
                 cartasJugador: cartasJugador,
@@ -396,16 +395,20 @@ export const match = (atributoEnJuego, props) => {
                     cartasAdversario: cartasAdversario,
                     atributoAdversario: atributoAdversario,
                     chat: chat
-            })
-            
+            })            
         }
-
-
     }
-
 }
 
 ///////////// DEBUG ///////////////////
+
+export const toggleDebug = (props) => {
+    
+    return (dispatch) => dispatch({
+        type: "DEBUG",
+        debug: !props.debug
+    })
+}
 
 export const sumarCarta = (props) => {
     let cartasJugador = props.cartasJugador2

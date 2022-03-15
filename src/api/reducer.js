@@ -1,6 +1,6 @@
 const estadoInicial = {
     debug: false,
-    intro: false,
+    intro: true,
     ganador: null,
     mazo: [{
       "id": 0,
@@ -1209,7 +1209,7 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             return {...estadoPrevio,              
               //mazo: action.mazo, 
               //atributos: action.atributos,
-              intro: action.intro,
+              intro: false,
               cartasJugador: action.cartasJugador,
               cartasAdversario: action.cartasAdversario,
               cartaJugador: estadoPrevio.mazo[action.cartasJugador[0]], // LOCAL
@@ -1281,6 +1281,12 @@ const reducer = (estadoPrevio = estadoInicial, action) => {
             cartaAdversario: estadoPrevio.mazo[action.cartasAdversario[0]],
             chat: action.chat,
             ganador: "Adversario"
+          }
+
+          case "DEBUG" :
+            
+          return{...estadoPrevio,
+            debug: action.debug
           }
 
           case "SUMAR_CARTA" :

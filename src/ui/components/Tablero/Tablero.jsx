@@ -5,6 +5,7 @@ import Dealer from "../Dealer/Dealer"
 import "./Tablero.css"
 import { connect } from "react-redux";
 import {repartirMazo} from "../../../api/actions"
+import {toggleDebug} from "../../../api/actions";
 
 const Tablero = (props) => {
     // props.repartirMazo();
@@ -14,21 +15,22 @@ const Tablero = (props) => {
             <div>
                 <div className="partesuperior-container">
                     {props.cartasEmpate.length > 0 ? <Empate /> : ""}
-                    <Adversario />            
+                    <Adversario/>            
                 </div>
-                <br />
-                <Jugador />
+                <br/>
+                <Jugador/>
                 <br/>
                 <button onClick={() => props.repartirMazo()}>Repartir</button>
-                <br />
-                {props.debug ? <Dealer /> : null}              
+                <br/>
+                <button onClick={() => props.toggleDebug(props)}>Debug info</button>
+                {props.debug ? <Dealer/> : null}              
             </div>
         )
     }
 
     const Intro = () => {
         return(
-            <div> 
+            <div className="intro-container"> 
                 <h2>Atencion!</h2>
                 <p>Este juego esta en constante desarrollo! Su intencion es poner en practica diversas tecnologias que voy adquiriendo en mi constante aprendizaje.</p>
                 <h2>Reglamento del "Juego del Match" con tarjeta roja y tarjeta amarilla</h2>
@@ -51,7 +53,7 @@ const Tablero = (props) => {
 
     return (
         <div className="tablero-container">
-                {!props.intro ? <Intro /> :  ""}
+                {props.intro ? <Intro /> :  null}
                 {!props.ganador ? <Partida /> :  <Ganador /> }
         </div>
     );
@@ -67,6 +69,6 @@ const mapStateToProps = store => ({
     intro: store.intro
 })
 
-const mapDispatchToProps = { repartirMazo };
+const mapDispatchToProps = { repartirMazo, toggleDebug };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tablero);

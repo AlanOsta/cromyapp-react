@@ -1,5 +1,21 @@
 
+.tablero-container {
+    padding: 1rem;
+}
+
 .partesuperior-container {
     display: flex;
     max-width: 700px;
+}
+
+.intro-container {
+    position: fixed;
+    width: 60%;
+    margin: 2rem;
+    padding: 1rem;
+    background-color: white;
+    border: .07rem solid black;
+    border-radius: .65rem;
+    box-shadow: .3rem .3rem .65rem gray;
+    z-index: 1;
 }
